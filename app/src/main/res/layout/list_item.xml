@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:text="用户昵称"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_icon"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:layout_toEndOf="@+id/iv_icon"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/tv_name" />
+
+    <TextView
+        android:text="正文"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tv_text"
+        android:layout_width="392dp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/tv_text"
+        android:layout_alignLeft="@+id/tv_text"
+        android:layout_alignStart="@+id/tv_text"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/iv_image"
+        android:layout_height="350dp" />
+
+    <TextView
+        android:text="11111"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:id="@+id/tv_good"
+        android:gravity="center"
+        android:layout_marginLeft="22dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="22dp"
+        android:drawableLeft="@drawable/good"
+        android:drawablePadding="10dp"
+        android:layout_below="@+id/iv_image"
+        android:layout_alignLeft="@+id/iv_image"
+        android:layout_alignStart="@+id/iv_image" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:srcCompat="@drawable/share"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginEnd="38dp"
+        android:id="@+id/iv_share"
+        android:layout_alignBottom="@+id/tv_comments"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="22222"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:drawableLeft="@drawable/comments"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/tv_comments"
+        android:layout_below="@+id/iv_image"
+        android:layout_toRightOf="@+id/tv_name"
+        android:layout_toEndOf="@+id/tv_name" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/icon"
+        android:id="@+id/iv_icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/tv_text"
+        android:layout_alignStart="@+id/tv_text" />
+
+
+</RelativeLayout>
