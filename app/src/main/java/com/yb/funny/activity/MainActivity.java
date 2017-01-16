@@ -1,4 +1,4 @@
-package com.yb.funny;
+package com.yb.funny.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.yb.funny.R;
 import com.yb.funny.fragment.ResourceFragment;
 import com.yb.funny.fragment.PrizeFragment;
 import com.yb.funny.fragment.FragmentParent3;

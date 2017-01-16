@@ -3,7 +3,7 @@
     android:id="@+id/tbHeadBar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/red">
+    android:background="@color/pink">
 
     <TextView
         android:layout_width="wrap_content"
