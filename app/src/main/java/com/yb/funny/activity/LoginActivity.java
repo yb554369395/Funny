@@ -1,5 +1,6 @@
 package com.yb.funny.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,17 +24,19 @@ import org.xutils.x;
  * Created by Administrator on 2017/1/8.
  */
 
-//@ContentView(R.layout.activity_login)
+@ContentView(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity{
     private static final String UESR_INFO = "";
 
-//    @ViewInject(R.id.username)
+    @ViewInject(R.id.login_username)
     EditText username;
-//    @ViewInject(R.id.password)
+    @ViewInject(R.id.login_password)
     EditText password;
 
-//    @ViewInject(R.id.login)
+    @ViewInject(R.id.login)
     Button login;
+    @ViewInject(R.id.login_register)
+    Button register;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class LoginActivity extends AppCompatActivity{
         x.view().inject(this);
     }
 
-//    @Event(R.id.login)
+    @Event(R.id.login)
     private void login(View view){
         //将url直接添加到参数里面
         RequestParams params = new RequestParams("http://192.168.0.104:8080/funny/user");
@@ -53,8 +56,7 @@ public class LoginActivity extends AppCompatActivity{
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                SharedpreferencesUtil.setSharedPreference(getParent(),"userinfo",s);
-                Toast.makeText(x.app(), SharedpreferencesUtil.getSahrePreference("userinfo"), Toast.LENGTH_SHORT).show();
+                SharedpreferencesUtil.setSharedPreference(x.app(),"userinfo",s);
             }
 
             @Override
@@ -72,5 +74,11 @@ public class LoginActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+    @Event(R.id.login_register)
+    private void register(View view){
+        Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+        startActivity(intent);
     }
 }

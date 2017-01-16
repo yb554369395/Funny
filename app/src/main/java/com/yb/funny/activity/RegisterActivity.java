@@ -17,7 +17,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
+import com.yb.funny.util.BitmapUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -32,38 +34,38 @@ import java.io.File;
  * Created by Administrator on 2017/1/8.
  */
 
-//@ContentView(R.layout.activity_register)
+@ContentView(R.layout.activity_register)
 public class RegisterActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 1;
     private String picturePath = null;
     private int sex = 0;
-//    @ViewInject(R.id.register_username)
-//    EditText username;
-//    @ViewInject(R.id.register_password)
-//    EditText password;
-//    @ViewInject(R.id.register_name)
-//    EditText name;
-//    @ViewInject(R.id.radioGroup)
-//    RadioGroup radioGroup;
-//    @ViewInject(R.id.man)
-//    RadioButton man;
-//    @ViewInject(R.id.women)
-//    RadioButton women;
-//    @ViewInject(R.id.register_icon)
-//    ImageView icon;
-//    @ViewInject(R.id.register_choose)
-//    Button choose;
-//    @ViewInject(R.id.register_introduction)
-//    EditText introduction;
-//    @ViewInject(R.id.register)
-//    Button register;
+    @ViewInject(R.id.register_username)
+    EditText username;
+    @ViewInject(R.id.register_password)
+    EditText password;
+    @ViewInject(R.id.register_name)
+    EditText name;
+    @ViewInject(R.id.register_sex)
+    RadioGroup sexgroup;
+    @ViewInject(R.id.register_man)
+    RadioButton man;
+    @ViewInject(R.id.register_women)
+    RadioButton women;
+    @ViewInject(R.id.register_icon)
+    SimpleDraweeView icon;
+    @ViewInject(R.id.register_introduction)
+    EditText introduction;
+    @ViewInject(R.id.register)
+    Button register;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+
+        BitmapUtil.loadBitmap("http://192.168.0.104:8089/icon/admin.jpg",icon);
     }
 
 //    @Event(R.id.register_choose)

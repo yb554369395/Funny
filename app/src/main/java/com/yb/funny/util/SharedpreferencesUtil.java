@@ -14,27 +14,28 @@ import static android.R.id.text1;
 
 
 public class SharedpreferencesUtil {
-    
-    private static SharedPreferences sharedPreferences;
+    private static final String USER_INFO="userinfo";
+    private static SharedPreferences sharedPreferences ;
 
     // 存储sharedpreferences
-    public static void setSharedPreference(Activity activity,String name, String text) {
-        sharedPreferences = activity.getSharedPreferences(name, Context.MODE_PRIVATE);
+    public static void setSharedPreference(Context context,String name, String text) {
+        sharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(name, text);
         editor.commit();// 提交修改
     }
 
     // 清除sharedpreferences的数据
-    public static void removeSharedPreference(Application application,String name) {
-        sharedPreferences = application.getSharedPreferences(name, Context.MODE_PRIVATE);
+    public static void removeSharedPreference(Context context,String name) {
+        sharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(name);
         editor.commit();// 提交修改
     }
 
     // 获得sharedpreferences的数据
-    public static String getSahrePreference(String name) {
+    public static String getSahrePreference(Context context,String name) {
+        sharedPreferences = context.getSharedPreferences(name,Context.MODE_PRIVATE);
         return sharedPreferences.getString(name, "");
     }
 }

@@ -8,8 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
 import com.yb.funny.entity.Resource;
+import com.yb.funny.util.BitmapUtil;
+
 import org.xutils.x;
 
 import java.util.List;
@@ -29,6 +32,10 @@ public class ListAdapter extends BaseAdapter{
         this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(this.context);
+    }
+
+    public void add(List<Resource> list){
+        data.addAll(0,list);
     }
 
     @Override
@@ -59,18 +66,18 @@ public class ListAdapter extends BaseAdapter{
             holder.name = (TextView) convertView.findViewById(R.id.tv_name);
             holder.good = (TextView) convertView.findViewById(R.id.tv_good);
             holder.comments = (TextView) convertView.findViewById(R.id.tv_comments);
-            holder.icon = (ImageView) convertView.findViewById(R.id.iv_icon);
-            holder.image = (ImageView) convertView.findViewById(R.id.iv_image);
+            holder.icon = (SimpleDraweeView) convertView.findViewById(R.id.iv_icon);
+            holder.image = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
             holder.share = (ImageView) convertView.findViewById(R.id.iv_share);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        x.image().bind(holder.icon,resource.getPublishericon());
+        BitmapUtil.loadBitmap(resource.getPublishericon(),holder.icon);
         if ( resource.getResourcepic() == null){
             holder.image.setVisibility(View.GONE);
         }else {
-            x.image().bind(holder.image,resource.getResourcepic());
+            BitmapUtil.loadBitmap(resource.getResourcepic(),holder.image);
         }
 
         holder.name.setText(resource.getPublishername());
@@ -86,8 +93,8 @@ public class ListAdapter extends BaseAdapter{
 
     private static class ViewHolder
     {
-        ImageView icon;
-        ImageView image;
+        SimpleDraweeView icon;
+        SimpleDraweeView image;
         ImageView share;
         TextView name;
         TextView text;
