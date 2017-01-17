@@ -1,8 +1,9 @@
 package com.yb.funny.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Resource {
+public class Resource implements Serializable{
 
 	// 资源ID
 	private int resourceid;

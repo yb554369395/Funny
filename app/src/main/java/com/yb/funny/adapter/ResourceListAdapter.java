@@ -13,8 +13,6 @@ import com.yb.funny.R;
 import com.yb.funny.entity.Resource;
 import com.yb.funny.util.BitmapUtil;
 
-import org.xutils.x;
-
 import java.util.List;
 
 /**
@@ -22,13 +20,13 @@ import java.util.List;
  * Created by Marven on 2017/1/11.
  */
 
-public class ListAdapter extends BaseAdapter{
+public class ResourceListAdapter extends BaseAdapter{
 
     private List<Resource> data;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public ListAdapter(Context context,List<Resource> data) {
+    public ResourceListAdapter(Context context, List<Resource> data) {
         this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(this.context);
@@ -37,6 +35,7 @@ public class ListAdapter extends BaseAdapter{
     public void add(List<Resource> list){
         data.addAll(0,list);
     }
+
 
     @Override
     public int getCount() {
@@ -59,7 +58,7 @@ public class ListAdapter extends BaseAdapter{
         Resource resource = data.get(position);
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_item,
+            convertView = layoutInflater.inflate(R.layout.resource_list_item,
                     parent, false);
             holder = new ViewHolder();
             holder.text = (TextView) convertView.findViewById(R.id.tv_text);

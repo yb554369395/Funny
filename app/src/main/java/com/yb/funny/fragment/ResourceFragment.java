@@ -1,9 +1,7 @@
 package com.yb.funny.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,14 +9,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.yb.funny.R;
-import com.yb.funny.adapter.ListAdapter;
+import com.yb.funny.activity.CommentsActivity;
+import com.yb.funny.adapter.ResourceListAdapter;
 import com.yb.funny.entity.Resource;
+import com.yb.funny.util.Constant;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -30,10 +32,9 @@ import java.util.List;
  * Created by 橘沐 on 2015/12/27.
  */
 public class ResourceFragment extends Fragment {
-    private static final String RESOURCE = "resource";
 
     private View view;
-    private ListAdapter adapter;
+    private ResourceListAdapter adapter;
     private ListView listView;
     private FloatingActionButton refresh;
 
@@ -45,6 +46,18 @@ public class ResourceFragment extends Fragment {
         refresh  = (FloatingActionButton) view.findViewById(R.id.refresh);
         loadResource();
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), CommentsActivity.class);
+                Bundle bundle = new Bundle();
+                Resource resource = (Resource) adapter.getItem(position);
+                bundle.putSerializable("resource",resource);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +67,7 @@ public class ResourceFragment extends Fragment {
                 load.setText("正在加载。。。");
                 load.setGravity(Gravity.CENTER);
                 listView.addHeaderView(load);
-                RequestParams params = new RequestParams("http://192.168.0.104:8080/funny/resource");
+                RequestParams params = new RequestParams(Constant.URI+"resource");
                 params.setMultipart(true);
                 params.addBodyParameter("method","get");
                 x.http().post(params, new Callback.CommonCallback<String>() {
@@ -100,7 +113,7 @@ public class ResourceFragment extends Fragment {
     }
 
     public void loadResource(){
-        RequestParams params = new RequestParams("http://192.168.0.104:8080/funny/resource");
+        RequestParams params = new RequestParams(Constant.URI+"resource");
         params.setMultipart(true);
         params.addBodyParameter("method","get");
 
@@ -108,7 +121,7 @@ public class ResourceFragment extends Fragment {
             @Override
             public void onSuccess(String s) {
                 List<Resource> list = json(s);
-                adapter = new ListAdapter(getActivity(),list);
+                adapter = new ResourceListAdapter(getActivity(),list);
                 listView.setAdapter(adapter);
             }
 

@@ -45,10 +45,11 @@
 
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/menu_login"
                     android:layout_centerInParent="true"
+                    android:textSize="30sp"
                     android:text="登陆"/>
 
 
@@ -57,6 +58,8 @@
                     android:layout_height="100dp"
                     android:id="@+id/menu_icon"
                     fresco:roundAsCircle="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
@@ -80,7 +83,7 @@
                     android:layout_toEndOf="@+id/menu_icon"
                     android:textSize="20sp"
                     android:layout_marginBottom="20dp"
-                    android:id="@+id/menu_prize" />
+                    android:id="@+id/menu_integral" />
 
             </RelativeLayout>
 
@@ -91,8 +94,32 @@
                 android:id="@+id/lvMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:dividerHeight="1dp"
                 android:divider="@null" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/logout"
+                    android:background="@color/blue"
+                    android:layout_weight="1"
+                    android:text="注销"
+                    />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/close"
+                    android:background="@color/blue"
+                    android:layout_weight="1"
+                    android:text="退出"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
     </LinearLayout>

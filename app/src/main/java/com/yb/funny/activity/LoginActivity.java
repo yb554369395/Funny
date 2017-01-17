@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.yb.funny.R;
+import com.yb.funny.util.Constant;
 import com.yb.funny.util.SharedpreferencesUtil;
 
 import org.xutils.common.Callback;
@@ -21,13 +22,11 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/1/8.
+ * Created by Marven on 2017/1/8.
  */
 
 @ContentView(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity{
-    private static final String UESR_INFO = "";
-
     @ViewInject(R.id.login_username)
     EditText username;
     @ViewInject(R.id.login_password)
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity{
     @Event(R.id.login)
     private void login(View view){
         //将url直接添加到参数里面
-        RequestParams params = new RequestParams("http://192.168.0.104:8080/funny/user");
+        RequestParams params = new RequestParams(Constant.URI+"user");
         params.setMultipart(true);
         params.addBodyParameter("method","login");
         params.addBodyParameter("username",username.getText().toString() );
@@ -56,7 +55,12 @@ public class LoginActivity extends AppCompatActivity{
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                SharedpreferencesUtil.setSharedPreference(x.app(),"userinfo",s);
+                SharedpreferencesUtil.setSharedPreference(x.app(),Constant.USER_INFO,s);
+                Toast.makeText(x.app(), "登陆成功！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("action.refreshUserInfo");
+                sendBroadcast(intent);
+                finish();
             }
 
             @Override
