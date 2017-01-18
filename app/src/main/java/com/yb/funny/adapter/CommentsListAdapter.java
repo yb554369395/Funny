@@ -13,6 +13,10 @@ import com.yb.funny.R;
 import com.yb.funny.entity.Comment;
 import com.yb.funny.util.BitmapUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -73,7 +77,7 @@ public class CommentsListAdapter extends BaseAdapter{
 
         BitmapUtil.loadBitmap(comment.getCommentatoricon(),holder.icon);
         holder.name.setText(comment.getCommentatorname());
-        holder.time.setText(comment.getCommenttime()+"");
+        holder.time.setText(DateToString(comment.getCommenttime()));
         holder.comment.setText(comment.getComments());
         return convertView;
     }
@@ -85,5 +89,15 @@ public class CommentsListAdapter extends BaseAdapter{
         TextView time;
         TextView comment;
 
+    }
+
+    private String DateToString(Date date){
+        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        Calendar calendar   =   new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
+        calendar.add(calendar.HOUR_OF_DAY,1);
+        String time=df.format(calendar.getTime());
+        return time;
     }
 }
