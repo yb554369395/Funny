@@ -32,6 +32,11 @@ public class CommentsListAdapter extends BaseAdapter{
         this.layoutInflater = LayoutInflater.from(this.context);
     }
 
+    public void add(List<Comment> list){
+        data.clear();
+        data.addAll(list);
+    }
+
 
     @Override
     public int getCount() {

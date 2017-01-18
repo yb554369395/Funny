@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -109,6 +110,7 @@
 
             </RelativeLayout>
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -119,6 +121,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:divider="@color/black"
+                android:dividerHeight="2dp"
                 android:id="@+id/lv_comments"></ListView>
 
         </LinearLayout>
@@ -129,12 +133,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="@drawable/border"
         android:gravity="center" >
         <EditText
             android:id="@+id/comments_et_comment"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/default_edittext_height"
             android:hint="期待你的神评论"
+            android:background="@null"
             android:paddingRight="60dp"
             android:maxLength="300"
             android:paddingLeft="55dp" >
@@ -151,6 +157,7 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:id="@+id/comments_send"
+            android:layout_marginRight="10dp"
             android:layout_gravity="right|center_vertical"
             android:text="发送"
             android:background="@color/blue"/>

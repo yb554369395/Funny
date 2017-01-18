@@ -29,6 +29,7 @@ import com.yb.funny.fragment.PrizeFragment;
 import com.yb.funny.fragment.FragmentParent3;
 import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
+import com.yb.funny.util.LoginUser;
 import com.yb.funny.util.SharedpreferencesUtil;
 
 import org.json.JSONObject;
@@ -212,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
             //从Sharedpreferences中取出的json字符串最外层为中括号，应去掉，不然无法解析
             String userinfo = SharedpreferencesUtil.getSahrePreference(x.app(),Constant.USER_INFO);
             User user = JSON.parseObject(userinfo.substring(1,userinfo.length()-1), User.class);
+            //将保存下来的已登陆的用户的信息保存到单例模型中
+            LoginUser.getInstance().setUser(user);
             BitmapUtil.loadBitmap(user.getIcon(),icon);
             name.setText(user.getName());
             integral.setText("积分："+user.getIntegral());
