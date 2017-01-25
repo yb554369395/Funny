@@ -1,5 +1,6 @@
 package com.yb.funny.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,11 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +29,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
 import com.yb.funny.entity.User;
 import com.yb.funny.fragment.ResourceFragment;
-import com.yb.funny.fragment.PrizeFragment;
-import com.yb.funny.fragment.FragmentParent3;
 import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.LoginUser;
 import com.yb.funny.util.SharedpreferencesUtil;
 
-import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -54,9 +55,11 @@ public class MainActivity extends AppCompatActivity {
     ListView mLvMenu;
 
     /*侧滑菜单用户信息布局*/
+    @ViewInject(R.id.user_info)
+    RelativeLayout userinfo;
+
     @ViewInject(R.id.menu_login)
     Button login;
-
 
     @ViewInject(R.id.menu_icon)
     SimpleDraweeView icon;
@@ -80,10 +83,8 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle mToggle;
 
 
-    private List<Fragment> imageList = new ArrayList<Fragment>() {{
-        add(new ResourceFragment());
-        add(new PrizeFragment());
-        add(new FragmentParent3());
+    private List<Activity> imageList = new ArrayList<Activity>() {{
+        add(new PrizeActivity());
     }};
 
     @Override
@@ -99,9 +100,32 @@ public class MainActivity extends AppCompatActivity {
         mLvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              addFragmentToStack(imageList.get(position));
                 mMyDrawable.closeDrawers();/*收起抽屉*/
+                if (LoginUser.getInstance().getUser() != null){
+                Intent intent = new Intent(MainActivity.this,imageList.get(position).getClass());
+                Bundle bundle = new Bundle();
+                User user = LoginUser.getInstance().getUser();
+                bundle.putSerializable("user",user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                }else {
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setTitle("提醒")
+                            .setMessage("您尚未登陆，是否先登陆？")
+                            .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
 
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                    startActivity(intent);
+                                }
+
+                            }).setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            return;
+                                        }
+                                    }).create(); // 创建对话框
+                    alertDialog.show(); // 显示对话框
+                }
             }
         });
 
@@ -109,6 +133,33 @@ public class MainActivity extends AppCompatActivity {
         intentFilter.addAction("action.refreshUserInfo");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_add) {
+            Intent intent = new Intent(MainActivity.this, AddActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
+
+
 
     // broadcast receiver
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -136,6 +187,17 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(x.app(), "注销成功", Toast.LENGTH_SHORT).show();
         initUserInfo();
     }
+
+    @Event(value = R.id.user_info,type = RelativeLayout.OnClickListener.class)
+    private void setUserinfo(View view){
+        Intent intent = new Intent(MainActivity.this,UserActivity.class);
+        Bundle bundle = new Bundle();
+        User user = LoginUser.getInstance().getUser();
+        bundle.putSerializable("user",user);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
 
     @Event(R.id.close)
     private void close(View view){
@@ -189,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
         mMyDrawable.addDrawerListener(mToggle);
         mToggle.syncState();/*同步状态*/
 
-        addFragmentToStack(imageList.get(0));
+        addFragmentToStack(new ResourceFragment());
 
     }
 

@@ -1,6 +1,7 @@
 package com.yb.funny.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
 import com.yb.funny.entity.Resource;
 import com.yb.funny.util.BitmapUtil;
+import com.yb.funny.util.Constant;
+import com.yb.funny.util.LoginUser;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -34,6 +41,12 @@ public class ResourceListAdapter extends BaseAdapter{
 
     public void add(List<Resource> list){
         data.addAll(0,list);
+    }
+
+
+    public void changeData(int position,Resource resource){
+        data.remove(position);
+        data.add(position,resource);
     }
 
 
@@ -85,6 +98,8 @@ public class ResourceListAdapter extends BaseAdapter{
         }else{
             holder.text.setText(resource.getResourcetext());
         }
+
+        checkgood(resource.getResourceid(),holder.good);
         holder.good.setText(resource.getPointpraiseno()+"");
         holder.comments.setText(resource.getCommentno()+"");
         return convertView;
@@ -100,5 +115,47 @@ public class ResourceListAdapter extends BaseAdapter{
         TextView good;
         TextView comments;
 
+    }
+
+    /**
+     * 检查当前登录用户是否对当前资源已经点赞
+     */
+    private void checkgood(int resourceid, final TextView textView){
+        if (LoginUser.getInstance().getUser() != null){
+            RequestParams params = new RequestParams(Constant.URI + "like");
+            params.setMultipart(true);
+            params.addBodyParameter("method", "check");
+            params.addBodyParameter("likeofresource", resourceid + "");
+            params.addBodyParameter("likeofpeople", LoginUser.getInstance().getUser().getUserid() + "");
+            x.http().post(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    if (Integer.parseInt(s) > 0) {
+                        Drawable drawable = x.app().getResources().getDrawable(R.drawable.good);
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                        textView.setCompoundDrawables(drawable, null, null, null);
+                    }else {
+                        Drawable drawable = x.app().getResources().getDrawable(R.drawable.ungood);
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                        textView.setCompoundDrawables(drawable, null, null, null);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable throwable, boolean b) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException e) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
     }
 }

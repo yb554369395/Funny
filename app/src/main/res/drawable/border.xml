@@ -8,8 +8,8 @@
     android:bottomLeftRadius="5px"
     android:bottomRightRadius="20px"/>
 
-<stroke
-android:width="4px"
-android:color="@color/black"/>
-    android:type="sweep"/>
+    <stroke
+        android:width="4px"
+        android:color="@color/black"
+        android:type="sweep"/>
     </shape>

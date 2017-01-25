@@ -1,9 +1,14 @@
 package com.yb.funny.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +26,7 @@ import com.yb.funny.R;
 import com.yb.funny.adapter.CommentsListAdapter;
 import com.yb.funny.entity.Comment;
 import com.yb.funny.entity.Resource;
+import com.yb.funny.entity.User;
 import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.LoginUser;
@@ -67,6 +73,10 @@ public class CommentsActivity extends AppCompatActivity{
     Button send;
     @ViewInject(R.id.lv_comments)
     ListView comments;
+    @ViewInject(R.id.tbHeadBar)
+    Toolbar mTbHeadBar;
+    @ViewInject(R.id.toolbar_title)
+    TextView toolbar_title;
 
 
     @Override
@@ -74,9 +84,21 @@ public class CommentsActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         x.view().inject(this);
 
+        toolbar_title.setText("详情");
+        setSupportActionBar(mTbHeadBar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         Intent intent = this.getIntent();
         resource= (Resource) intent.getSerializableExtra("resource");
         initActivity(resource);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     private void initActivity(Resource resource){
@@ -92,6 +114,9 @@ public class CommentsActivity extends AppCompatActivity{
             text.setText(resource.getResourcetext());
         }
         name.setText(resource.getPublishername());
+        if (LoginUser.getInstance().getUser() != null) {
+            checkgood(resource.getResourceid(), inithandler);
+        }
         goodno.setText(resource.getPointpraiseno()+"");
         commentno.setText(resource.getCommentno()+"");
 
@@ -104,6 +129,114 @@ public class CommentsActivity extends AppCompatActivity{
 
     }
 
+    @Event(value = R.id.comments_iv_icon,type = SimpleDraweeView.OnClickListener.class)
+    private void loadUserInfo(View view){
+        RequestParams params = new RequestParams(Constant.URI + "user");
+        params.setMultipart(true);
+        params.addBodyParameter("method", "get");
+        params.addBodyParameter("publisher", resource.getPublisher() + "");
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                JSONArray array = JSON.parseArray(s);
+                List<User>list =  JSONArray.parseArray(s,User.class);
+                User user = list.get(0);
+                Intent intent = new Intent(CommentsActivity.this,UserActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user",user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    @Event(value = R.id.comments_tv_good,type = TextView.OnClickListener.class)
+    private void good(View view){
+        if (LoginUser.getInstance().getUser() != null) {
+            checkgood(resource.getResourceid(), clickhandler);
+            RequestParams params = new RequestParams(Constant.URI + "like");
+            params.setMultipart(true);
+            params.addBodyParameter("method", "add");
+            params.addBodyParameter("likeofresource", resource.getResourceid() + "");
+            params.addBodyParameter("likeofpeople", LoginUser.getInstance().getUser().getUserid() + "");
+            x.http().post(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    refreshno();
+                }
+
+                @Override
+                public void onError(Throwable throwable, boolean b) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException e) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }else{
+            Toast.makeText(x.app(), "请先登录！", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    /*当点赞或者评论过后，更新点赞数和评论数组件显示得最新数据*/
+    private void refreshno(){
+        RequestParams params = new RequestParams(Constant.URI+"resource");
+        params.setMultipart(true);
+        params.addBodyParameter("method","get");
+        params.addBodyParameter("type",2+"");
+        params.addBodyParameter("resourceid",resource.getResourceid()+"");
+
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                JSONArray array = JSON.parseArray(s);
+                List<Resource>list =  JSONArray.parseArray(s,Resource.class);
+               Resource resource2 =  list.get(0);
+                goodno.setText(resource2.getPointpraiseno()+"");
+                commentno.setText(resource2.getCommentno()+"");
+            }
+
+            @Override
+            public void onError(Throwable throwable, boolean b) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException e) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    /*加载评论数据*/
     private void loadComments(int belongid){
         RequestParams params = new RequestParams(Constant.URI+"comment");
         params.setMultipart(true);
@@ -144,13 +277,14 @@ public class CommentsActivity extends AppCompatActivity{
         });
     }
 
+    /*发表评论*/
     @Event(R.id.comments_send)
     private void sendComments(View view){
         RequestParams params = new RequestParams(Constant.URI+"comment");
         params.setMultipart(true);
         params.addBodyParameter("method","publish");
         if (LoginUser.getInstance().getUser() == null){
-            Toast.makeText(x.app(), "请先登录在进行评论！", Toast.LENGTH_LONG).show();
+            Toast.makeText(x.app(), "请先登录！", Toast.LENGTH_LONG).show();
         }else {
             params.addBodyParameter("commentatorid", LoginUser.getInstance().getUser().getUserid() + "");
             params.addBodyParameter("belongid", resource.getResourceid() + "");
@@ -165,9 +299,10 @@ public class CommentsActivity extends AppCompatActivity{
             x.http().post(params, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String s) {
-                        et_comment.setText("");
-                        Toast.makeText(x.app(), "发表评论成功！", Toast.LENGTH_SHORT).show();
-                        loadComments(resource.getResourceid());
+                    et_comment.setText("");
+                    Toast.makeText(x.app(), "发表评论成功！", Toast.LENGTH_SHORT).show();
+                    loadComments(resource.getResourceid());
+                    refreshno();
                 }
 
                 @Override
@@ -215,5 +350,77 @@ public class CommentsActivity extends AppCompatActivity{
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+
+    /*异步操作，初始化的时候对是否已经点赞得结果进行处理*/
+    Handler inithandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
+            if (msg.what>0){
+                Drawable drawable = getResources().getDrawable(R.drawable.good);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                goodno.setCompoundDrawables(drawable, null, null, null);
+            }
+            return true;
+        }
+    });
+
+    /*异步操作，点击点赞按钮的时候对是否已经点赞得结果进行处理*/
+    Handler clickhandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
+            if (msg.what>0){
+                Toast toast = Toast.makeText(x.app(), "您已经赞过了", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
+            }else {
+                Drawable drawable = getResources().getDrawable(R.drawable.good);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                goodno.setCompoundDrawables(drawable, null, null, null);
+            }
+            return true;
+        }
+    });
+
+
+
+
+    /**
+     * 检查当前登录用户是否对当前资源已经点赞
+     * 并根据情况进行操作
+     */
+    private void checkgood(int resourceid, final Handler handler){
+            RequestParams params = new RequestParams(Constant.URI + "like");
+            params.setMultipart(true);
+            params.addBodyParameter("method", "check");
+            params.addBodyParameter("likeofresource", resourceid + "");
+            params.addBodyParameter("likeofpeople", LoginUser.getInstance().getUser().getUserid() + "");
+            x.http().post(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    int row = Integer.parseInt(s);
+                    Message msg = new Message();
+                    msg.what = row;
+                    handler.sendMessage(msg);
+                }
+
+                @Override
+                public void onError(Throwable throwable, boolean b) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException e) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
     }
 }

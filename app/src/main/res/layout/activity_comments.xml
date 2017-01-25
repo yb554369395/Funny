@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     >
 
+    <include layout="@layout/headbar_toolbar"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,7 +68,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="22dp"
-                    android:drawableLeft="@drawable/good"
+                    android:drawableLeft="@drawable/ungood"
                     android:drawablePadding="10dp"
                     android:layout_below="@+id/comments_iv_image"
                     android:layout_alignLeft="@+id/comments_iv_image"
@@ -104,6 +106,7 @@
                     fresco:roundAsCircle="true"
                     android:id="@+id/comments_iv_icon"
                     android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
                     android:layout_alignLeft="@+id/comments_tv_text"
                     android:layout_alignStart="@+id/comments_tv_text" />
 

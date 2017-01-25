@@ -33,6 +33,10 @@ import java.util.List;
  */
 public class ResourceFragment extends Fragment {
 
+    private int chooseitem;
+    private int chooseitemid;
+    private int count = 0;
+
     private View view;
     private ResourceListAdapter adapter;
     private ListView listView;
@@ -47,11 +51,14 @@ public class ResourceFragment extends Fragment {
         loadResource();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), CommentsActivity.class);
                 Bundle bundle = new Bundle();
                 Resource resource = (Resource) adapter.getItem(position);
+                chooseitem = position;
+                chooseitemid = resource.getResourceid();
                 bundle.putSerializable("resource",resource);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -70,6 +77,7 @@ public class ResourceFragment extends Fragment {
                 RequestParams params = new RequestParams(Constant.URI+"resource");
                 params.setMultipart(true);
                 params.addBodyParameter("method","get");
+                params.addBodyParameter("type",1+"");
                 x.http().post(params, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
@@ -106,6 +114,44 @@ public class ResourceFragment extends Fragment {
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        count++;
+        super.onResume();
+        if (count>1){
+            RequestParams params = new RequestParams(Constant.URI+"resource");
+            params.setMultipart(true);
+            params.addBodyParameter("method","get");
+            params.addBodyParameter("type",2+"");
+            params.addBodyParameter("resourceid",chooseitemid+"");
+            x.http().post(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    List<Resource> list = json(s);
+                    Resource resource = list.get(0);
+                    adapter.changeData(chooseitem,resource);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onError(Throwable throwable, boolean b) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException e) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -116,6 +162,8 @@ public class ResourceFragment extends Fragment {
         RequestParams params = new RequestParams(Constant.URI+"resource");
         params.setMultipart(true);
         params.addBodyParameter("method","get");
+        params.addBodyParameter("type",1+"");
+
 
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override

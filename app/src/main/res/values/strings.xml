@@ -19,8 +19,6 @@
     <string name="close">close</string>
 
     <string-array name="menu_array">
-        <item>资源页面</item>
-        <item>登录页面</item>
-        <item>注册页面</item>
+        <item>积分商城</item>
     </string-array>
 </resources>

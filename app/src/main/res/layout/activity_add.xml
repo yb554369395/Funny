@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/headbar_toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="昵称"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:id="@+id/add_name" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_below="@+id/add_name"
+            android:layout_marginTop="10dp"
+            android:id="@+id/add_text"
+            android:background="@null"
+            android:hint="你可以将你的所见所闻，任何有趣的新闻发布出了来，与大家一起分享！"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/add_big"
+            android:layout_marginTop="12dp"
+            android:id="@+id/add_pic"
+            android:background="@drawable/bg_border"
+            android:layout_below="@+id/add_text"
+            android:layout_alignLeft="@+id/add_text"
+            android:layout_alignStart="@+id/add_text" />
+
+    </RelativeLayout>
+
+</LinearLayout>

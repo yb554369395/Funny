@@ -1,6 +1,8 @@
 package com.yb.funny.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	// 用户ID
 	private int userid;
 	// 用户名

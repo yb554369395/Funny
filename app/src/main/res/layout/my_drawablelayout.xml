@@ -40,10 +40,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="start"
                 android:background="@color/blue"
-                xmlns:fresco="http://schemas.android.com/tools"
                 >
-
-
                 <Button
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -52,38 +49,43 @@
                     android:textSize="30sp"
                     android:text="登陆"/>
 
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/menu_icon"
-                    fresco:roundAsCircle="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:text="用户昵称"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:textSize="20sp"
-                    android:layout_toRightOf="@+id/menu_icon"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/menu_name" />
+                    android:id="@+id/user_info"
+                    xmlns:fresco="http://schemas.android.com/tools">
 
-                <TextView
-                    android:text="积分：99999"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/menu_icon"
-                    android:layout_toRightOf="@+id/menu_icon"
-                    android:layout_toEndOf="@+id/menu_icon"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="20dp"
-                    android:id="@+id/menu_integral" />
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/menu_icon"
+                        fresco:roundAsCircle="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+                    <TextView
+                        android:text="用户昵称"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:textSize="20sp"
+                        android:layout_toRightOf="@+id/menu_icon"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/menu_name" />
+
+                    <TextView
+                        android:text="积分：99999"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/menu_icon"
+                        android:layout_toRightOf="@+id/menu_icon"
+                        android:layout_toEndOf="@+id/menu_icon"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="20dp"
+                        android:id="@+id/menu_integral" />
+                </RelativeLayout>
 
             </RelativeLayout>
 

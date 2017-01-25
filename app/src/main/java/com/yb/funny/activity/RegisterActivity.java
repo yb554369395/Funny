@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private String picturePath = null;
     private int sex = 0;
+    @ViewInject(R.id.tbHeadBar)
+    Toolbar mTbHeadBar;
     @ViewInject(R.id.register_username)
     EditText username;
     @ViewInject(R.id.register_password)
@@ -65,13 +68,26 @@ public class RegisterActivity extends AppCompatActivity {
     EditText introduction;
     @ViewInject(R.id.register)
     Button register;
-
+    @ViewInject(R.id.toolbar_title)
+    TextView toolbar_title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+
+        toolbar_title.setText("注册");
+        setSupportActionBar(mTbHeadBar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         BitmapUtil.loadBitmap(Constant.DEFAULT_ICON,icon);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     @Event(value = R.id.register_icon,type = SimpleDraweeView.OnClickListener.class)

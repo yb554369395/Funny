@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yb.funny">
+    package="com.yb.funny"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,13 +32,19 @@
             android:name=".activity.RegisterActivity">
         </activity>
         <activity
-            android:name=".activity.ResourceActivity">
-        </activity>
-        <activity
             android:name=".activity.MainActivity">
         </activity>
         <activity
             android:name=".activity.CommentsActivity">
+        </activity>
+        <activity
+        android:name=".activity.UserActivity">
+    </activity>
+        <activity
+            android:name=".activity.PrizeActivity">
+        </activity>
+        <activity
+            android:name=".activity.AddActivity">
         </activity>
     </application>
 

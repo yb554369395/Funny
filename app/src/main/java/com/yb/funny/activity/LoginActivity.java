@@ -1,15 +1,15 @@
 package com.yb.funny.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.yb.funny.R;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.SharedpreferencesUtil;
@@ -22,6 +22,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 /**
+ * 登录界面
  * Created by Marven on 2017/1/8.
  */
 
@@ -31,16 +32,34 @@ public class LoginActivity extends AppCompatActivity{
     EditText username;
     @ViewInject(R.id.login_password)
     EditText password;
+    @ViewInject(R.id.tbHeadBar)
+    Toolbar mTbHeadBar;
+
 
     @ViewInject(R.id.login)
     Button login;
     @ViewInject(R.id.login_register)
     Button register;
+    @ViewInject(R.id.toolbar_title)
+    TextView toolbar_title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+
+        toolbar_title.setText("登录");
+        setSupportActionBar(mTbHeadBar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
     @Event(R.id.login)
