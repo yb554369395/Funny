@@ -26,6 +26,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:id="@+id/tv_text"
         android:layout_width="392dp" />
@@ -36,6 +37,7 @@
         android:layout_alignLeft="@+id/tv_text"
         android:layout_alignStart="@+id/tv_text"
         android:layout_marginTop="10dp"
+        fresco:actualImageScaleType="fitCenter"
         android:id="@+id/iv_image"
         android:layout_marginRight="10dp"
         android:layout_height="400dp" />

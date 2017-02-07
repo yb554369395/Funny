@@ -102,11 +102,12 @@ public class CommentsActivity extends AppCompatActivity{
     }
 
     private void initActivity(Resource resource){
-        BitmapUtil.loadBitmap(resource.getPublishericon(),icon);
+        BitmapUtil.loadIcon(resource.getPublishericon(),icon);
         if ( resource.getResourcepic() == null){
             image.setVisibility(View.GONE);
         }else {
-            BitmapUtil.loadBitmap(resource.getResourcepic(),image);
+//            BitmapUtil.loadBitmap(resource.getResourcepic(),image);
+            BitmapUtil.loadPicture(image,resource.getResourcepic(),BitmapUtil.getScreenWidth(CommentsActivity.this));
         }
         if (resource.getResourcetext() == null){
             text.setVisibility(View.GONE);
@@ -321,6 +322,33 @@ public class CommentsActivity extends AppCompatActivity{
                 }
             });
         }
+    }
+
+    @Event(value = R.id.comments_iv_share,type = ImageView.OnClickListener.class)
+    private void share(View view){
+        if (resource.getResourcepic()== null){
+            shareText();
+        }else {
+            shareTextAndPic();
+        }
+
+    }
+
+    private void shareText(){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, resource.getResourcetext()+"-----内容来自Funny,笑口常开！");
+        intent.setType("text/plain");
+        //设置分享列表的标题，并且每次都显示分享列表
+        startActivity(Intent.createChooser(intent, "分享到"));
+    }
+    private void shareTextAndPic(){
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, resource.getResourcepic());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, resource.getResourcetext()+"-----内容来自Funny,笑口常开！");
+        shareIntent.setType("image/*");
+        startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
 

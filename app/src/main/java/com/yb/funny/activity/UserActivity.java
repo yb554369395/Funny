@@ -96,7 +96,7 @@ public class UserActivity extends AppCompatActivity{
     }
 
     private void initActivity(User user){
-        BitmapUtil.loadBitmap(user.getIcon(),icon);
+        BitmapUtil.loadIcon(user.getIcon(),icon);
         name.setText(user.getName());
         if (user.getSex() == 1){
             sex.setImageDrawable(getResources().getDrawable(R.drawable.signs_man));

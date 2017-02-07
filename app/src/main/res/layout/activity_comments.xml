@@ -54,6 +54,7 @@
                     android:layout_alignLeft="@+id/comments_tv_text"
                     android:layout_alignStart="@+id/comments_tv_text"
                     android:layout_marginTop="10dp"
+                    fresco:actualImageScaleType="fitCenter"
                     android:id="@+id/comments_iv_image"
                     android:layout_marginRight="10dp"
                     android:layout_height="400dp" />
@@ -124,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:divider="@color/black"
+                android:divider="@color/gray"
                 android:dividerHeight="2dp"
                 android:id="@+id/lv_comments"></ListView>
 
@@ -165,5 +166,11 @@
             android:text="发送"
             android:background="@color/blue"/>
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
 </LinearLayout>

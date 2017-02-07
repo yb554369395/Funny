@@ -14,4 +14,6 @@ public class Constant {
 
     public static final String DEFAULT_ICON_HEAD = "http://192.168.0.104:8089/icon/";
 
+    public static final String DEFAULT_PIC_HEAD = "http://192.168.0.104:8089/pic/";
+
 }

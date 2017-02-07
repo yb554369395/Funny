@@ -85,11 +85,11 @@ public class ResourceListAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        BitmapUtil.loadBitmap(resource.getPublishericon(),holder.icon);
+        BitmapUtil.loadIcon(resource.getPublishericon(),holder.icon);
         if ( resource.getResourcepic() == null){
             holder.image.setVisibility(View.GONE);
         }else {
-            BitmapUtil.loadBitmap(resource.getResourcepic(),holder.image);
+            BitmapUtil.loadPicture(holder.image,resource.getResourcepic(),BitmapUtil.getScreenWidth(context));
         }
 
         holder.name.setText(resource.getPublishername());

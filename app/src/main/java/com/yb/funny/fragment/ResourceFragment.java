@@ -1,5 +1,6 @@
 package com.yb.funny.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -69,11 +71,7 @@ public class ResourceFragment extends Fragment {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listView.setSelection(0);
-                final TextView load = new TextView(getActivity());
-                load.setText("正在加载。。。");
-                load.setGravity(Gravity.CENTER);
-                listView.addHeaderView(load);
+                final ProgressDialog dialog = ProgressDialog.show(getActivity(), "提示", "正在加载中...");
                 RequestParams params = new RequestParams(Constant.URI+"resource");
                 params.setMultipart(true);
                 params.addBodyParameter("method","get");
@@ -86,11 +84,15 @@ public class ResourceFragment extends Fragment {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        load.setText("加载完成。");
+                        dialog.dismiss();
+                        Toast toast = Toast.makeText(x.app(),
+                                "加载成功！", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 400);
+                        toast.show();
                         List<Resource> addlist = json(s);
                         adapter.add(addlist);
                         adapter.notifyDataSetChanged();
-                        listView.removeHeaderView(load);
+                        listView.setSelection(0);
                     }
 
                     @Override

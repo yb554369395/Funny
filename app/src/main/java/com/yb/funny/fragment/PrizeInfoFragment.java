@@ -36,7 +36,7 @@ import java.util.Locale;
 
 
 /**
- * 积分兑换专区
+ * 积分兑换专区   提示充值成功有错误
  * Created by Marven on 2015/12/27.
  */
 public class PrizeInfoFragment extends Fragment {
@@ -131,12 +131,10 @@ public class PrizeInfoFragment extends Fragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.what>0){
                 number.setText("");
                 Toast.makeText(x.app(), "充值成功，请等待充值到账！", Toast.LENGTH_LONG).show();
                 IntegralUtil.lessintegral(prize.getRequiredpoints(),LoginUser.getInstance().getUser().getUserid());
-            }
-            return false;
+            return true;
         }
     });
 

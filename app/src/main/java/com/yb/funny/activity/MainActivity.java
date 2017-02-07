@@ -146,8 +146,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_add) {
+            if (LoginUser.getInstance().getUser()!= null){
             Intent intent = new Intent(MainActivity.this, AddActivity.class);
             startActivity(intent);
+            }else {
+                Toast.makeText(x.app(), "请先登陆！", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
@@ -277,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             User user = JSON.parseObject(userinfo.substring(1,userinfo.length()-1), User.class);
             //将保存下来的已登陆的用户的信息保存到单例模型中
             LoginUser.getInstance().setUser(user);
-            BitmapUtil.loadBitmap(user.getIcon(),icon);
+            BitmapUtil.loadIcon(user.getIcon(),icon);
             name.setText(user.getName());
             integral.setText("积分："+user.getIntegral());
         }

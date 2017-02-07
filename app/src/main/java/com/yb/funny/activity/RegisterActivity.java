@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        BitmapUtil.loadBitmap(Constant.DEFAULT_ICON,icon);
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.default_icon));
     }
 
     @Override
@@ -179,7 +179,6 @@ public class RegisterActivity extends AppCompatActivity {
             picturePath = cursor.getString(columnIndex);
             cursor.close();
             icon.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            BitmapUtil.loadBitmap(picturePath,icon);
         }
     }
 }

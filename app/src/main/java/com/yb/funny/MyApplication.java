@@ -3,6 +3,7 @@ package com.yb.funny;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import org.xutils.x;
 
@@ -20,6 +21,7 @@ public class MyApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
+
 
         Fresco.initialize(this);
 

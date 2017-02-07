@@ -75,7 +75,7 @@ public class CommentsListAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        BitmapUtil.loadBitmap(comment.getCommentatoricon(),holder.icon);
+        BitmapUtil.loadIcon(comment.getCommentatoricon(),holder.icon);
         holder.name.setText(comment.getCommentatorname());
         holder.time.setText(DateToString(comment.getCommenttime()));
         holder.comment.setText(comment.getComments());

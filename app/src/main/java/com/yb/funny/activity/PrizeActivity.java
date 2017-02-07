@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
@@ -61,6 +62,10 @@ public class PrizeActivity extends AppCompatActivity{
     private TextView name;
     @ViewInject(R.id.prize_integral)
     private TextView integral;
+    @ViewInject(R.id.include2)
+    Toolbar mTbHeadBar;
+    @ViewInject(R.id.toolbar_title)
+    TextView toolbar_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,9 +73,14 @@ public class PrizeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         x.view().inject(this);
 
+        toolbar_title.setText("积分商城");
+        setSupportActionBar(mTbHeadBar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         User user = (User) getIntent().getSerializableExtra("user");
         initActivity(user);
-
 
         bill.setOnClickListener(new MyOnClickListener(0));
         flow.setOnClickListener(new MyOnClickListener(1));
@@ -126,6 +136,12 @@ public class PrizeActivity extends AppCompatActivity{
         vPager.setCurrentItem(0);
         titles[1].setTextColor(Color.BLACK);
         titles[0].setTextColor(Color.RED);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 
 
