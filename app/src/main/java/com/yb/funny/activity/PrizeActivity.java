@@ -1,24 +1,21 @@
 package com.yb.funny.activity;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yb.funny.R;
 import com.yb.funny.entity.User;
 import com.yb.funny.fragment.PrizeInfoFragment;
+import com.yb.funny.util.AppManager;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -71,6 +68,7 @@ public class PrizeActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
         toolbar_title.setText("积分商城");
@@ -163,5 +161,11 @@ public class PrizeActivity extends AppCompatActivity{
         public void onClick(View v) {
             vPager.setCurrentItem(index);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 }

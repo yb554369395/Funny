@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
-import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.LoginUser;
+import com.yb.funny.util.AppManager;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.MD5;
@@ -62,6 +62,7 @@ public class AddActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
         toolbar_title.setText("发表");
@@ -186,4 +187,9 @@ public class AddActivity extends AppCompatActivity{
         return sdf.format(new Date());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
+    }
 }

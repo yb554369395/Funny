@@ -6,19 +6,14 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,8 +21,8 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
-import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
+import com.yb.funny.util.AppManager;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -74,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
         toolbar_title.setText("注册");
@@ -180,5 +176,11 @@ public class RegisterActivity extends AppCompatActivity {
             cursor.close();
             icon.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 }

@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.LoginUser;
 import com.yb.funny.util.SharedpreferencesUtil;
+import com.yb.funny.util.AppManager;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -41,6 +43,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 @ContentView(R.layout.activity_main)
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
   /*初始化Toolbar与DrawableLayout*/
@@ -159,11 +164,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if(keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            exitBy2Click();      //调用双击退出函数
+        }
+        return false;
+    }
 
     // broadcast receiver
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -211,11 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        android.os.Process.killProcess(android.os.Process.myPid());
+                        AppManager.getAppManager().AppExit(MainActivity.this);
                     }
 
                 }).setNegativeButton("取消",
@@ -291,5 +295,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mRefreshBroadcastReceiver);
+        AppManager.getAppManager().finishActivity(this);
     }
+
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+           AppManager.getAppManager().AppExit(this);
+        }
+    }
+
+
+
 }

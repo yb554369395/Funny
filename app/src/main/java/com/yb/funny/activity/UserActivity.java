@@ -21,6 +21,8 @@ import com.yb.funny.entity.Resource;
 import com.yb.funny.entity.User;
 import com.yb.funny.util.BitmapUtil;
 import com.yb.funny.util.Constant;
+import com.yb.funny.util.AppManager;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
@@ -62,6 +64,7 @@ public class UserActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
         toolbar_title.setText("");
@@ -167,5 +170,11 @@ public class UserActivity extends AppCompatActivity{
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 }
