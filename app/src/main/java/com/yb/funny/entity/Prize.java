@@ -1,5 +1,11 @@
 package com.yb.funny.entity;
 
+
+/**
+ * 奖品实体类
+ *
+ * @author Yangbin
+ */
 public class Prize {
 	
 	//奖品id

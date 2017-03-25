@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
     <include layout="@layout/headbar_toolbar"/>
 
     <RelativeLayout
@@ -10,8 +13,9 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:text="昵称"
-            android:textSize="20sp"
+            android:text="@string/name"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -22,6 +26,15 @@
             android:layout_marginTop="25dp"
             android:id="@+id/add_name" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="，欢迎投稿！"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/add_name"
+            android:layout_toRightOf="@+id/add_name"
+            android:layout_toEndOf="@+id/add_name" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -31,18 +44,19 @@
             android:layout_marginTop="10dp"
             android:id="@+id/add_text"
             android:background="@null"
-            android:hint="你可以将你的所见所闻，任何有趣的新闻发布出了来，与大家一起分享！"
+            android:hint="@string/add_hint"
+            android:gravity="top|left"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="12dp"
             android:id="@+id/add_pic"
-            android:background="@drawable/bg_border"
+            android:background="@drawable/border"
             android:layout_below="@+id/add_text"
             android:layout_alignLeft="@+id/add_text"
             android:layout_alignStart="@+id/add_text" />

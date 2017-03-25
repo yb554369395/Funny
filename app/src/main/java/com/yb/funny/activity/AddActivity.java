@@ -15,14 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
-import com.yb.funny.util.Constant;
-import com.yb.funny.util.LoginUser;
 import com.yb.funny.util.AppManager;
+import com.yb.funny.util.Constant;
+import com.yb.funny.util.IntegralUtil;
+import com.yb.funny.util.LoginUser;
+import com.yb.funny.util.TimeUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.common.util.MD5;
@@ -33,31 +34,28 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 
 /**
  * 用户发布资源界面
- * Created by Marven on 2017/1/25.
+ * Created by Yangbin on 2017/1/25.
  */
 
 @ContentView(R.layout.activity_add)
-public class AddActivity extends AppCompatActivity{
+public class AddActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 1;
     private String picturePath = null;
     @ViewInject(R.id.tbHeadBar)
-    Toolbar mTbHeadBar;
+    private Toolbar mTbHeadBar;
     @ViewInject(R.id.toolbar_title)
-    TextView toolbar_title;
+    private  TextView toolbar_title;
     @ViewInject(R.id.add_pic)
-    SimpleDraweeView image;
+    private ImageView image;
     @ViewInject(R.id.add_text)
-    EditText text;
+    private  EditText text;
     @ViewInject(R.id.add_name)
-    TextView name;
+    private  TextView name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,15 +63,19 @@ public class AddActivity extends AppCompatActivity{
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
-        toolbar_title.setText("发表");
+        toolbar_title.setText(getString(R.string.publish));
         setSupportActionBar(mTbHeadBar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        name.setText(LoginUser.getInstance().getUser().getName()+"，欢迎投稿！");
+        name.setText(LoginUser.getInstance().getUser().getName());
         image.setImageDrawable(getResources().getDrawable(R.drawable.add_big));
     }
 
+    /**
+     * Actionbar返回上个页面功能
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -82,7 +84,6 @@ public class AddActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_add, menu);
         return true;
     }
@@ -90,11 +91,9 @@ public class AddActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.menu_ok) {
             uploadResource();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -106,13 +105,14 @@ public class AddActivity extends AppCompatActivity{
         params.setMultipart(true);
         params.addBodyParameter("method","upload");
         params.addBodyParameter("resourcetext",text.getText().toString() );
-        params.addBodyParameter("publishedtime", getTime());
+        params.addBodyParameter("publishedtime", TimeUtil.getTimeSeconds());
         params.addBodyParameter("publisher", LoginUser.getInstance().getUser().getUserid()+"");
-        params.addBodyParameter("publishername", LoginUser.getInstance().getUser().getName()+"");
-        params.addBodyParameter("publishericon", LoginUser.getInstance().getUser().getIcon()+"");
-        params.addBodyParameter("hashid", MD5.md5(LoginUser.getInstance().getUser().getUsername()+getTime()));
+        params.addBodyParameter("publishername", LoginUser.getInstance().getUser().getName());
+        String iconname = LoginUser.getInstance().getUser().getIcon();
+        params.addBodyParameter("publishericon",iconname.substring(18+Constant.IP.length()));
+        params.addBodyParameter("hashid", MD5.md5(LoginUser.getInstance().getUser().getUsername() + TimeUtil.getTimeSeconds()));
         if (picturePath != null) {
-            params.addBodyParameter("imgname",Constant.DEFAULT_PIC_HEAD+MD5.md5(LoginUser.getInstance().getUser().getUsername()+getTime())+picturePath.substring(picturePath.length()-4));
+            params.addBodyParameter("imgname", MD5.md5(LoginUser.getInstance().getUser().getUsername() + TimeUtil.getTimeSeconds())+picturePath.substring(picturePath.length()-4));
             params.addBodyParameter("type","pic");
             params.addBodyParameter("file",new File(picturePath));
         }else {
@@ -121,7 +121,12 @@ public class AddActivity extends AppCompatActivity{
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                Toast.makeText(x.app(), "发表成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(x.app(), getString(R.string.pubSuccess), Toast.LENGTH_SHORT).show();
+                IntegralUtil.addintegral(5, LoginUser.getInstance().getUser().getUserid());
+                LoginUser.getInstance().getUser().addResourceCount();
+                Intent intent = new Intent();
+                intent.setAction("action.refreshUserInfo");
+                sendBroadcast(intent);
                 finish();
             }
 
@@ -143,26 +148,36 @@ public class AddActivity extends AppCompatActivity{
     }
 
 
-    @Event(value = R.id.add_pic,type = SimpleDraweeView.OnClickListener.class)
-    private void uploadimage(View view){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("提醒")
-                .setMessage("通过本地图库选择上传图片")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+    /**
+     * 通过调用系统图库，让用户选择需要上传的图片
+     *
+     * @param view
+     */
+    @Event(value = R.id.add_pic,type = ImageView.OnClickListener.class)
+    private void uploadImage(View view){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(getString(R.string.alert))
+                .setMessage(getString(R.string.uploadImage))
+                .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                     }
 
-                }).setNegativeButton("取消",
+                }).setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
                             }
                         }).create(); // 创建对话框
         alertDialog.show(); // 显示对话框
     }
 
+    /**
+     * 当用户选择好需要上传的图片后，系统会自动调用该方法，在该方法中获取图片的路径，并将需要上传的图片显示到指定的位置，
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -182,10 +197,7 @@ public class AddActivity extends AppCompatActivity{
     }
 
 
-    private String getTime(){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd ", Locale.getDefault());
-        return sdf.format(new Date());
-    }
+
 
     @Override
     protected void onDestroy() {

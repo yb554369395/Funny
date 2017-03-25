@@ -3,7 +3,6 @@ package com.yb.funny.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,18 +11,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
-import com.yb.funny.util.Constant;
 import com.yb.funny.util.AppManager;
-
+import com.yb.funny.util.BitmapUtil;
+import com.yb.funny.util.Constant;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
@@ -34,7 +31,9 @@ import org.xutils.x;
 import java.io.File;
 
 /**
- * Created by Administrator on 2017/1/8.
+ * 用户注册界面
+ *
+ * Created by Yangbin on 2017/1/8.
  */
 
 @ContentView(R.layout.activity_register)
@@ -44,27 +43,27 @@ public class RegisterActivity extends AppCompatActivity {
     private String picturePath = null;
     private int sex = 0;
     @ViewInject(R.id.tbHeadBar)
-    Toolbar mTbHeadBar;
+    private Toolbar mTbHeadBar;
     @ViewInject(R.id.register_username)
-    EditText username;
+    private EditText username;
     @ViewInject(R.id.register_password)
-    EditText password;
+    private EditText password;
     @ViewInject(R.id.register_name)
-    EditText name;
-    @ViewInject(R.id.register_sex)
-    RadioGroup sexgroup;
+    private   EditText name;
+//    @ViewInject(R.id.register_sex)
+//    private  RadioGroup sexgroup;
     @ViewInject(R.id.register_man)
-    RadioButton man;
+    private  RadioButton man;
     @ViewInject(R.id.register_women)
-    RadioButton women;
+    private   RadioButton women;
     @ViewInject(R.id.register_icon)
-    SimpleDraweeView icon;
+    private ImageView icon;
     @ViewInject(R.id.register_introduction)
-    EditText introduction;
-    @ViewInject(R.id.register)
-    Button register;
+    private   EditText introduction;
+//    @ViewInject(R.id.register)
+//    private   Button register;
     @ViewInject(R.id.toolbar_title)
-    TextView toolbar_title;
+    private TextView toolbar_title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
-        toolbar_title.setText("注册");
+        toolbar_title.setText(getString(R.string.register));
         setSupportActionBar(mTbHeadBar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,26 +85,32 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    @Event(value = R.id.register_icon,type = SimpleDraweeView.OnClickListener.class)
+    @Event(value = R.id.register_icon,type = ImageView.OnClickListener.class)
     private void choose(View view) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle("提醒")
-                .setMessage("通过本地图库选择上传图片")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(getString(R.string.alert))
+                .setMessage(getString(R.string.uploadImage))
+                .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                     }
 
-                }).setNegativeButton("取消",
+                }).setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                return;
+
                             }
                         }).create(); // 创建对话框
         alertDialog.show(); // 显示对话框
     }
 
+    /**
+     * 监听事件，获取性别选项
+     *
+     * @param group
+     * @param checkedId
+     */
     @Event(value = R.id.register_sex,type = RadioGroup.OnCheckedChangeListener.class)
     private void chooseSex(RadioGroup group, int checkedId){
         if (checkedId == man.getId()){
@@ -115,6 +120,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 用户注册功能
+     *
+     * @param view
+     */
     @Event(R.id.register)
     private void register(View view){
         RequestParams params = new RequestParams(Constant.URI+"user");
@@ -127,17 +137,20 @@ public class RegisterActivity extends AppCompatActivity {
         if (picturePath == null) {
             params.addBodyParameter("imgname", Constant.DEFAULT_ICON);
         }else{
-            params.addBodyParameter("imgname",Constant.DEFAULT_ICON_HEAD+username.getText().toString()+".jpg");
+            params.addBodyParameter("imgname",username.getText().toString()+".jpg");
             params.addBodyParameter("type","icon");
             params.addBodyParameter("file",new File(picturePath));
         }
         params.addBodyParameter("introduction",introduction.getText().toString());
-
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                Toast.makeText(x.app(), "注册成功！", Toast.LENGTH_SHORT).show();
-                finish();
+                if(Integer.parseInt(s)>0) {
+                    Toast.makeText(x.app(), getString(R.string.registerSuccess), Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(RegisterActivity.this, getString(R.string.repeatUsername), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -174,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             picturePath = cursor.getString(columnIndex);
             cursor.close();
-            icon.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            BitmapUtil.loadIcon(picturePath,icon);
         }
     }
 

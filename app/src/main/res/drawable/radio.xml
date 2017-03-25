@@ -4,9 +4,13 @@
 
     <item
         android:state_checked="false"
-        android:drawable="@color/gray" />
+        android:drawable="@drawable/radio_nor" />
     <item
         android:state_checked="true"
-        android:drawable="@color/blue" />
+        android:drawable="@drawable/button_bg" />
+
 
 </selector>
+
+
+

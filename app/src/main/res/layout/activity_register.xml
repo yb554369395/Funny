@@ -20,7 +20,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/default_edittext_height"
             android:layout_marginTop="5dp"
-            android:hint="用户名"
+            android:hint="@string/username_hint"
             android:paddingRight="60dp"
             android:maxLength="20"
             android:paddingLeft="55dp" >
@@ -47,7 +47,7 @@
             android:layout_marginTop="5dp"
             android:inputType="textPassword"
             android:paddingRight="60dp"
-            android:hint="密码"
+            android:hint="@string/password_hint"
             android:maxLength="20"
             android:paddingLeft="55dp" >
         </EditText>
@@ -73,7 +73,7 @@
             android:layout_marginTop="5dp"
             android:paddingRight="60dp"
             android:maxLength="20"
-            android:hint="昵称"
+            android:hint="@string/name"
             android:paddingLeft="55dp" >
         </EditText>
         <ImageView
@@ -98,7 +98,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_gravity="left|center_vertical"
-            app:srcCompat="@drawable/sex" />
+            android:src="@drawable/sex" />
 
 
     <RadioGroup
@@ -113,14 +113,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/register_man"
             android:layout_marginLeft="50dp"
-            android:text="男"/>
+            android:text="@string/man"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/register_women"
             android:layout_marginLeft="50dp"
-            android:text="女"/>
+            android:text="@string/women"/>
 
     </RadioGroup>
     </LinearLayout>
@@ -134,7 +134,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="left"
-        android:hint="随便写点什么。。。"
+        android:hint="@string/introduction"
         android:id="@+id/register_introduction"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -150,22 +150,21 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="#ff336699"
+        android:background="@drawable/button_bg"
         android:textColor="@android:color/white"
         android:gravity="center"
-        android:text="注册" />
+        android:text="@string/register" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        fresco:roundAsCircle="true"
         android:id="@+id/register_icon"
         android:layout_marginTop="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:text="点击头像上传照片"
+        android:text="@string/text_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

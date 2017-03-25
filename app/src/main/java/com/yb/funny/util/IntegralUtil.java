@@ -5,12 +5,20 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/1/25.
+ * 用户积分工具类
+ * 增加积分、减少积分
+ * Created by Yangbin on 2017/1/25.
  */
 
 public class IntegralUtil {
 
-    public static void lessintegral(int integral, int userid){
+
+    /**
+     * 静态方法，减少传入的用户ID对应用户的积分
+     * @param integral
+     * @param userid
+     */
+    public static void lessintegral(final int integral, int userid){
         RequestParams params = new RequestParams(Constant.URI + "user");
         params.setMultipart(true);
         params.addBodyParameter("method", "lessintegral");
@@ -19,7 +27,7 @@ public class IntegralUtil {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-
+                LoginUser.getInstance().getUser().lessIntegral(integral);
             }
 
             @Override
@@ -40,7 +48,12 @@ public class IntegralUtil {
     }
 
 
-    public static void addintegral(int integral, int userid){
+    /**
+     * 静态方法，增加传入的用户ID对应用户的积分
+     * @param integral
+     * @param userid
+     */
+    public static void addintegral(final int integral, int userid){
         RequestParams params = new RequestParams(Constant.URI + "user");
         params.setMultipart(true);
         params.addBodyParameter("method", "addintegral");
@@ -67,6 +80,7 @@ public class IntegralUtil {
 
             }
         });
+        LoginUser.getInstance().getUser().addIntegral(integral);
     }
 
 }

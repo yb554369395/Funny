@@ -1,19 +1,18 @@
 package com.yb.funny.util;
 
 /**
- * Created by Marven on 2017/1/17.
+ * 常量工具类
+ *
+ * Created by Yangbin on 2017/1/17.
  */
 
 public class Constant {
 
     public static final String USER_INFO = "userinfo";
 
-    public static final String URI = "http://192.168.0.103:8080/funny/";
+    public static final String IP = "202.16.29.100";
 
-    public static final String DEFAULT_ICON = "http://192.168.0.103:8089/icon/default.png";
+    public static final String URI = "http://"+IP+":8080/funny/";
 
-    public static final String DEFAULT_ICON_HEAD = "http://192.168.0.103:8089/icon/";
-
-    public static final String DEFAULT_PIC_HEAD = "http://192.168.0.103:8089/pic/";
-
+    public static final String DEFAULT_ICON = "default.png";
 }

@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
 
     <include layout="@layout/headbar_toolbar"
         android:id="@+id/include" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/include">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:id="@+id/user_scroll"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/include">-->
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
 
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        fresco:roundAsCircle="true"
-        android:id="@+id/user_icon"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp" />
+    <!--<ImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:id="@+id/user_icon"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginStart="30dp" />-->
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fresco:srcCompat="@drawable/signs_man"
-        android:layout_alignTop="@+id/user_name"
-        android:layout_toRightOf="@+id/user_name"
-        android:layout_toEndOf="@+id/user_name"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/user_sex" />
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/user_name"-->
+        <!--android:layout_toRightOf="@+id/user_name"-->
+        <!--android:layout_toEndOf="@+id/user_name"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:id="@+id/user_sex" />-->
 
-    <TextView
-        android:text="用户昵称"
-        android:layout_width="wrap_content"
-        android:id="@+id/user_name"
-        android:layout_height="32dp"
-        android:textSize="25sp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:textStyle="bold"
-        android:layout_alignTop="@+id/user_icon"
-        android:layout_toRightOf="@+id/user_icon"
-        android:layout_toEndOf="@+id/user_icon"
-        android:layout_marginTop="24dp" />
+    <!--<TextView-->
+        <!--android:text="@string/name"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:id="@+id/user_name"-->
+        <!--android:layout_height="32dp"-->
+        <!--android:textSize="25sp"-->
+        <!--android:layout_marginLeft="19dp"-->
+        <!--android:layout_marginStart="19dp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_alignTop="@+id/user_icon"-->
+        <!--android:layout_toRightOf="@+id/user_icon"-->
+        <!--android:layout_toEndOf="@+id/user_icon"-->
+        <!--android:layout_marginTop="24dp" />-->
 
-    <TextView
-        android:text="积分：99999"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:id="@+id/user_integral"
-        android:textSize="20sp"
-        android:layout_below="@+id/user_name"
-        android:layout_alignLeft="@+id/user_name"
-        android:layout_alignStart="@+id/user_name"
-        android:layout_marginTop="11dp" />
+    <!--<TextView-->
+        <!--android:text="@string/integral"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="32dp"-->
+        <!--android:id="@+id/user_integral"-->
+        <!--android:textSize="20sp"-->
+        <!--android:layout_below="@+id/user_name"-->
+        <!--android:layout_alignLeft="@+id/user_name"-->
+        <!--android:layout_alignStart="@+id/user_name"-->
+        <!--android:layout_marginTop="11dp" />-->
 
-    <TextView
-        android:text="个人简介"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_integral"
-        android:layout_marginTop="10dp"
-        android:id="@+id/user_introduction"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <!--<TextView-->
+        <!--android:text="@string/introduction"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/user_integral"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:id="@+id/user_introduction"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
 
-    <TextView
-        android:text="x片投稿"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@+id/user_introduction"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/user_title"
-        android:background="@color/gray"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <!--<TextView-->
+        <!--android:text="@string/user_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_below="@+id/user_introduction"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:id="@+id/user_title"-->
+        <!--android:background="@color/gray"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/user_title"
+        android:layout_below="@+id/include"
         android:id="@+id/user_resource"/>
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
 
-    </ScrollView>
+    <!--</ScrollView>-->
 
 </RelativeLayout>

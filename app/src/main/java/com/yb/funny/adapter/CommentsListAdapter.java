@@ -7,12 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
 import com.yb.funny.entity.Comment;
 import com.yb.funny.util.BitmapUtil;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,8 +17,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- * 自定义ListView
- * Created by Marven on 2017/1/17
+ * 显示评论的自定义ListView
+ * Created by Yangbin on 2017/1/17
  */
 
 public class CommentsListAdapter extends BaseAdapter{
@@ -36,8 +33,12 @@ public class CommentsListAdapter extends BaseAdapter{
         this.layoutInflater = LayoutInflater.from(this.context);
     }
 
-    public void add(List<Comment> list){
+    public void addAll(List<Comment> list){
         data.clear();
+        data.addAll(list);
+    }
+
+    public void add(List<Comment> list){
         data.addAll(list);
     }
 
@@ -48,7 +49,7 @@ public class CommentsListAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public Comment getItem(int position) {
         return data.get(position);
     }
 
@@ -69,13 +70,13 @@ public class CommentsListAdapter extends BaseAdapter{
             holder.name = (TextView) convertView.findViewById(R.id.comments_list_name);
             holder.time = (TextView) convertView.findViewById(R.id.comments_list_time);
             holder.comment = (TextView) convertView.findViewById(R.id.comments_list_comment);
-            holder.icon = (SimpleDraweeView) convertView.findViewById(R.id.comments_list_icon);
+            holder.icon = (ImageView) convertView.findViewById(R.id.comments_list_icon);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        BitmapUtil.loadIcon(comment.getCommentatoricon(),holder.icon);
+        BitmapUtil.loadIcon(comment.getCommentatoricon(), holder.icon);
         holder.name.setText(comment.getCommentatorname());
         holder.time.setText(DateToString(comment.getCommenttime()));
         holder.comment.setText(comment.getComments());
@@ -84,7 +85,7 @@ public class CommentsListAdapter extends BaseAdapter{
 
     private static class ViewHolder
     {
-        SimpleDraweeView icon;
+        ImageView icon;
         TextView name;
         TextView time;
         TextView comment;
@@ -92,12 +93,11 @@ public class CommentsListAdapter extends BaseAdapter{
     }
 
     private String DateToString(Date date){
-        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar calendar   =   new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
-        calendar.add(calendar.HOUR_OF_DAY,1);
-        String time=df.format(calendar.getTime());
-        return time;
+//        calendar.add(Calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
+//        calendar.add(Calendar.HOUR_OF_DAY,1);
+        return df.format(calendar.getTime());
     }
 }

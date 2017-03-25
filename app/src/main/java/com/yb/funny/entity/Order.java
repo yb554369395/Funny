@@ -2,6 +2,11 @@ package com.yb.funny.entity;
 
 import java.util.Date;
 
+/**
+ * 订单实体类
+ *
+ * @author Yangbin
+ */
 public class Order {
 	
 	//订单编号

@@ -23,11 +23,11 @@ import org.xutils.x;
 import java.util.List;
 
 /**
- * 自定义ListView
- * Created by Marven on 2017/1/11.
+ * 显示资源的自定义ListView
+ * Created by Yangbin on 2017/1/11.
  */
 
-public class ResourceListAdapter extends BaseAdapter{
+public class ResourceListAdapter extends BaseAdapter {
 
     private List<Resource> data;
     private LayoutInflater layoutInflater;
@@ -39,14 +39,18 @@ public class ResourceListAdapter extends BaseAdapter{
         this.layoutInflater = LayoutInflater.from(this.context);
     }
 
-    public void add(List<Resource> list){
-        data.addAll(0,list);
+    public void addToHead(List<Resource> list) {
+        data.addAll(0, list);
+    }
+
+    public void addToFoot(List<Resource> list) {
+        data.addAll(list);
     }
 
 
-    public void changeData(int position,Resource resource){
+    public void changeData(int position, Resource resource) {
         data.remove(position);
-        data.add(position,resource);
+        data.add(position, resource);
     }
 
 
@@ -56,7 +60,7 @@ public class ResourceListAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int position) {
+    public Resource getItem(int position) {
         return data.get(position);
     }
 
@@ -67,47 +71,51 @@ public class ResourceListAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        Resource resource = data.get(position);
-
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.resource_list_item,
-                    parent, false);
-            holder = new ViewHolder();
-            holder.text = (TextView) convertView.findViewById(R.id.tv_text);
-            holder.name = (TextView) convertView.findViewById(R.id.tv_name);
-            holder.good = (TextView) convertView.findViewById(R.id.tv_good);
-            holder.comments = (TextView) convertView.findViewById(R.id.tv_comments);
-            holder.icon = (SimpleDraweeView) convertView.findViewById(R.id.iv_icon);
-            holder.image = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
-            holder.share = (ImageView) convertView.findViewById(R.id.iv_share);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        BitmapUtil.loadIcon(resource.getPublishericon(),holder.icon);
-        if ( resource.getResourcepic() == null){
-            holder.image.setVisibility(View.GONE);
+        if (data.size() == 0){
+            View view = layoutInflater.inflate(R.layout.empty_view,parent);
+            return view;
         }else {
-            BitmapUtil.loadPicture(holder.image,resource.getResourcepic(),BitmapUtil.getScreenWidth(context));
-        }
+            ViewHolder holder;
+            Resource resource = data.get(position);
 
-        holder.name.setText(resource.getPublishername());
-        if (resource.getResourcetext() == null){
-            holder.text.setVisibility(View.GONE);
-        }else{
-            holder.text.setText(resource.getResourcetext());
-        }
+            if (convertView == null) {
+                convertView = layoutInflater.inflate(R.layout.resource_list_item,
+                        parent, false);
+                holder = new ViewHolder();
+                holder.text = (TextView) convertView.findViewById(R.id.tv_text);
+                holder.name = (TextView) convertView.findViewById(R.id.tv_name);
+                holder.good = (TextView) convertView.findViewById(R.id.tv_good);
+                holder.comments = (TextView) convertView.findViewById(R.id.tv_comments);
+                holder.icon = (ImageView) convertView.findViewById(R.id.iv_icon);
+                holder.image = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
+                holder.share = (ImageView) convertView.findViewById(R.id.iv_share);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            BitmapUtil.loadIcon(resource.getPublishericon(), holder.icon);
+            if (resource.getResourcepic() == null) {
+                holder.image.setVisibility(View.GONE);
+            } else {
+                BitmapUtil.loadPicture(holder.image, resource.getResourcepic(),BitmapUtil.getScreenWidth(context));
+            }
 
-        checkgood(resource.getResourceid(),holder.good);
-        holder.good.setText(resource.getPointpraiseno()+"");
-        holder.comments.setText(resource.getCommentno()+"");
-        return convertView;
+            holder.name.setText(resource.getPublishername());
+            if (resource.getResourcetext() == null) {
+                holder.text.setVisibility(View.GONE);
+            } else {
+                holder.text.setText(resource.getResourcetext());
+            }
+
+            checkgood(resource.getResourceid(), holder.good);
+            holder.good.setText(resource.getPointpraiseno() + "");
+            holder.comments.setText(resource.getCommentno() + "");
+            return convertView;
+        }
     }
 
-    private static class ViewHolder
-    {
-        SimpleDraweeView icon;
+    private static class ViewHolder {
+        ImageView icon;
         SimpleDraweeView image;
         ImageView share;
         TextView name;
@@ -120,8 +128,8 @@ public class ResourceListAdapter extends BaseAdapter{
     /**
      * 检查当前登录用户是否对当前资源已经点赞
      */
-    private void checkgood(int resourceid, final TextView textView){
-        if (LoginUser.getInstance().getUser() != null){
+    private void checkgood(int resourceid, final TextView textView) {
+        if (LoginUser.getInstance().getUser() != null) {
             RequestParams params = new RequestParams(Constant.URI + "like");
             params.setMultipart(true);
             params.addBodyParameter("method", "check");
@@ -134,7 +142,7 @@ public class ResourceListAdapter extends BaseAdapter{
                         Drawable drawable = x.app().getResources().getDrawable(R.drawable.good);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                         textView.setCompoundDrawables(drawable, null, null, null);
-                    }else {
+                    } else {
                         Drawable drawable = x.app().getResources().getDrawable(R.drawable.ungood);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                         textView.setCompoundDrawables(drawable, null, null, null);

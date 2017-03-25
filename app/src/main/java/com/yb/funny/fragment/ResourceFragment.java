@@ -4,18 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.yb.funny.R;
 import com.yb.funny.activity.CommentsActivity;
@@ -26,12 +24,14 @@ import com.yb.funny.util.Constant;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.List;
 
 
-
 /**
- * Created by 橘沐 on 2015/12/27.
+ * 资源信息显示Fragment
+ *
+ * Created by Yangbin on 2017/1/10.
  */
 public class ResourceFragment extends Fragment {
 
@@ -42,14 +42,14 @@ public class ResourceFragment extends Fragment {
     private View view;
     private ResourceListAdapter adapter;
     private ListView listView;
-    private FloatingActionButton refresh;
+    private ImageView refresh;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resource, container, false);
         listView = (ListView) view.findViewById(R.id.lv_resource);
-        refresh  = (FloatingActionButton) view.findViewById(R.id.refresh);
+        refresh  = (ImageView) view.findViewById(R.id.refresh);
         loadResource();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +58,7 @@ public class ResourceFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), CommentsActivity.class);
                 Bundle bundle = new Bundle();
-                Resource resource = (Resource) adapter.getItem(position);
+                Resource resource = adapter.getItem(position);
                 chooseitem = position;
                 chooseitemid = resource.getResourceid();
                 bundle.putSerializable("resource",resource);
@@ -71,7 +71,7 @@ public class ResourceFragment extends Fragment {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ProgressDialog dialog = ProgressDialog.show(getActivity(), "提示", "正在加载中...");
+                final ProgressDialog dialog = ProgressDialog.show(getActivity(), getString(R.string.alert), getString(R.string.Loading));
                 RequestParams params = new RequestParams(Constant.URI+"resource");
                 params.setMultipart(true);
                 params.addBodyParameter("method","get");
@@ -86,11 +86,11 @@ public class ResourceFragment extends Fragment {
                         }
                         dialog.dismiss();
                         Toast toast = Toast.makeText(x.app(),
-                                "加载成功！", Toast.LENGTH_SHORT);
+                                getString(R.string.loadSuccess), Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.TOP, 0, 400);
                         toast.show();
                         List<Resource> addlist = json(s);
-                        adapter.add(addlist);
+                        adapter.addToHead(addlist);
                         adapter.notifyDataSetChanged();
                         listView.setSelection(0);
                     }
@@ -194,9 +194,7 @@ public class ResourceFragment extends Fragment {
 
 
     public List<Resource> json(String s){
-        JSONArray array = JSON.parseArray(s);
-        List<Resource>list =  JSONArray.parseArray(s,Resource.class);
-        return  list;
+        return JSONArray.parseArray(s, Resource.class);
     }
 
 

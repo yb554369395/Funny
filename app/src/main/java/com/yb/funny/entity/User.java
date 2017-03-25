@@ -1,7 +1,14 @@
 package com.yb.funny.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+
+/**
+ * 用户实体类
+ *
+ * @author Yangbin
+ */
 public class User implements Serializable{
 	// 用户ID
 	private int userid;
@@ -19,6 +26,10 @@ public class User implements Serializable{
 	private String icon;
 	// 用户简介
 	private String introduction;
+    //用户发表的内容条数
+    private int resourcecount;
+	// 最后一次登录时间
+	private Date lastlogin;
 
 	/**
 	 * @return the userid
@@ -139,5 +150,43 @@ public class User implements Serializable{
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+
+    public int getResourcecount() {
+        return resourcecount;
+    }
+
+    public void setResourcecount(int resourcecount) {
+        this.resourcecount = resourcecount;
+    }
+
+    public Date getLastlogin() {
+        return lastlogin;
+    }
+
+    public void setLastlogin(Date lastlogin) {
+        this.lastlogin = lastlogin;
+    }
+
+    /**
+     * 增加积分
+     */
+	public void addIntegral(int integral){
+        this.integral += integral;
+    }
+
+    /**
+     * 减少积分
+     */
+	public void lessIntegral(int integral){
+        this.integral -= integral;
+    }
+
+    /**
+     * 增加发表的内容条数
+     */
+    public void addResourceCount(){
+        this.resourcecount++;
+    }
+
 
 }

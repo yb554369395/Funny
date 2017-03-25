@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * 评论实体类
  * 
- * @author Marven
+ * @author Yangbin
  *
  */
 public class Comment {

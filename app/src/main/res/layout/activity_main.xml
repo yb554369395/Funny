@@ -6,8 +6,8 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <!--头部-->
-    <include layout="@layout/headbar_toolbar" />
+    <!--&lt;!&ndash;头部&ndash;&gt;-->
+    <!--<include layout="@layout/headbar_toolbar" />-->
 
     <!--主布局-->
     <include layout="@layout/my_drawablelayout" />

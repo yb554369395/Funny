@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -15,9 +16,14 @@ import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.yb.funny.R;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/1/16.
+ * 图片加载工具类
+ *
+ * Created by Yangbin on 2017/1/16.
  */
 
 
@@ -26,26 +32,41 @@ public class BitmapUtil {
 
 
     /**
-     * 加载icon图片
+     * 加载icon图片(圆形)
      * @param url
      * @param view
      */
-    public static void loadIcon(String url, SimpleDraweeView view){
-        Uri uri = Uri.parse(url);
-        DraweeController draweeController =
-                Fresco.newDraweeControllerBuilder()
-                        .setUri(uri)
-                        .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
-                        .build();
-        view.setController(draweeController);
+    public static void loadIcon(String url, ImageView view){
+        ImageOptions imageOptions = new ImageOptions.Builder()
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setCircular(true)
+                .setCrop(true)
+                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                .setFailureDrawableId(R.mipmap.ic_launcher)
+                .build();
+        x.image().bind(view,url,imageOptions);
     }
 
+//    /**
+//     * 加载资源图片
+//     *
+//     * * @param simpleDraweeView view
+//     * * @param imagePath  Uri
+//     */
+//    public static void loadPicture( ImageView imageView,String imagePath) {
+//        ImageOptions imageOptions = new ImageOptions.Builder()
+//                .setLoadingDrawableId(R.mipmap.ic_launcher)
+//                .setFailureDrawableId(R.mipmap.ic_launcher)
+//                .setUseMemCache(true)
+//                .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
+//                .build();
+//        x.image().bind(imageView,imagePath,imageOptions);
+//    }
+
+
     /**
-     * 加载资源图片
-     * 通过imageWidth 的宽度，自动适应高度
-     * * @param simpleDraweeView view
-     * * @param imagePath  Uri
-     * * @param imageWidth width
+     * 使用SimpleDraweeView加载图片，图片自适应
+     * 由于SimpleDraweeView出现问题，该方法暂时不可用
      */
     public static void loadPicture(final SimpleDraweeView simpleDraweeView, String imagePath, final int imageWidth) {
         final ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();

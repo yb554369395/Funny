@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fresco="http://schemas.android.com/tools">
 
     <TextView
-        android:text="用户昵称"
+        android:text="@string/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/iv_icon"
@@ -15,10 +14,11 @@
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="12dp"
+        android:textSize="20sp"
         android:id="@+id/tv_name" />
 
     <TextView
-        android:text="正文"
+        android:text="@string/text"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_icon"
         android:layout_alignParentLeft="true"
@@ -40,10 +40,10 @@
         fresco:actualImageScaleType="fitCenter"
         android:id="@+id/iv_image"
         android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_height="400dp" />
 
     <TextView
-        android:text="11111"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:id="@+id/tv_good"
@@ -51,6 +51,7 @@
         android:layout_marginLeft="22dp"
         android:layout_marginBottom="20dp"
         android:drawableLeft="@drawable/ungood"
+        android:drawableStart="@drawable/ungood"
         android:layout_marginTop="10dp"
         android:layout_marginStart="22dp"
         android:drawablePadding="10dp"
@@ -61,7 +62,7 @@
     <ImageView
         android:layout_width="25dp"
         android:layout_height="25dp"
-        app:srcCompat="@drawable/share"
+        android:src="@drawable/share"
         android:layout_marginTop="10dp"
         android:layout_marginRight="38dp"
         android:layout_marginEnd="38dp"
@@ -71,23 +72,22 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="22222"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:drawablePadding="10dp"
         android:drawableLeft="@drawable/comments"
+        android:drawableStart="@drawable/comments"
         android:layout_marginBottom="20dp"
         android:id="@+id/tv_comments"
         android:layout_below="@+id/iv_image"
         android:layout_toRightOf="@+id/tv_name"
         android:layout_toEndOf="@+id/tv_name" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        fresco:roundAsCircle="true"
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/iv_icon"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"

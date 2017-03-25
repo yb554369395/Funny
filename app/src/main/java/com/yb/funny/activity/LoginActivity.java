@@ -6,14 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
 import com.yb.funny.R;
-import com.yb.funny.util.Constant;
-import com.yb.funny.util.SharedpreferencesUtil;
+import com.yb.funny.entity.User;
 import com.yb.funny.util.AppManager;
+import com.yb.funny.util.Constant;
+import com.yb.funny.util.LoginUser;
+import com.yb.funny.util.SharedpreferencesUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -24,25 +27,25 @@ import org.xutils.x;
 
 /**
  * 登录界面
- * Created by Marven on 2017/1/8.
+ * Created by Yangbin on 2017/1/8.
  */
 
 @ContentView(R.layout.activity_login)
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     @ViewInject(R.id.login_username)
-    EditText username;
+    private  EditText username;
     @ViewInject(R.id.login_password)
-    EditText password;
+    private  EditText password;
     @ViewInject(R.id.tbHeadBar)
-    Toolbar mTbHeadBar;
+    private  Toolbar mTbHeadBar;
 
-
-    @ViewInject(R.id.login)
-    Button login;
-    @ViewInject(R.id.login_register)
-    Button register;
+//
+//    @ViewInject(R.id.login)
+//    private  Button login;
+//    @ViewInject(R.id.login_register)
+//    private  Button register;
     @ViewInject(R.id.toolbar_title)
-    TextView toolbar_title;
+    private TextView toolbar_title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity{
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
 
-        toolbar_title.setText("登录");
+        toolbar_title.setText(getString(R.string.login));
         setSupportActionBar(mTbHeadBar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +67,10 @@ public class LoginActivity extends AppCompatActivity{
         return super.onSupportNavigateUp();
     }
 
+    /**
+     * 用户登录功能
+     * @param view
+     */
     @Event(R.id.login)
     private void login(View view){
         //将url直接添加到参数里面
@@ -76,12 +83,20 @@ public class LoginActivity extends AppCompatActivity{
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                SharedpreferencesUtil.setSharedPreference(x.app(),Constant.USER_INFO,s);
-                Toast.makeText(x.app(), "登陆成功！", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent();
-                intent.setAction("action.refreshUserInfo");
-                sendBroadcast(intent);
-                finish();
+                String userinfo = s.substring(1, s.length() - 1);
+                if (userinfo.length()>0) {
+                    Toast.makeText(x.app(), getString(R.string.loginSuccess), Toast.LENGTH_SHORT).show();
+                    LoginUser.getInstance().setUser(JSON.parseObject(userinfo, User.class));
+                    SharedpreferencesUtil.setSharedPreference(x.app(), Constant.USER_INFO, userinfo);
+                    Intent intent = new Intent();
+                    intent.setAction("action.refreshUserInfo");
+                    sendBroadcast(intent);
+                    finish();
+                }else {
+                    Toast.makeText(x.app(), getString(R.string.LoginError), Toast.LENGTH_LONG).show();
+                    username.setText("");
+                    password.setText("");
+                }
             }
 
             @Override

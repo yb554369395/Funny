@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/user_icon"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/user_sex"
+        android:layout_alignTop="@+id/user_name"
+        android:layout_toRightOf="@+id/user_name"
+        android:layout_toEndOf="@+id/user_name" />
+
+    <TextView
+        android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:id="@+id/user_name"
+        android:layout_height="32dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/user_icon"
+        android:layout_toRightOf="@+id/user_icon"
+        android:layout_toEndOf="@+id/user_icon" />
+
+    <TextView
+        android:text="@string/integral"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:id="@+id/user_integral"
+        android:textSize="20sp"
+        android:layout_below="@+id/user_name"
+        android:layout_alignLeft="@+id/user_name"
+        android:layout_alignStart="@+id/user_name"
+        android:layout_marginTop="11dp" />
+
+    <TextView
+        android:text="@string/introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_integral"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/user_introduction"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/user_title"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/user_introduction"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/user_title"
+        android:background="@color/gray"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
