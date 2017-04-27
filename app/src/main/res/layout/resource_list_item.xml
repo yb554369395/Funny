@@ -37,31 +37,33 @@
         android:layout_alignLeft="@+id/tv_text"
         android:layout_alignStart="@+id/tv_text"
         android:layout_marginTop="10dp"
-        fresco:actualImageScaleType="fitCenter"
         android:id="@+id/iv_image"
+        fresco:failureImage="@drawable/fail"
+        fresco:failureImageScaleType="centerInside"
+        fresco:progressBarImage="@drawable/loading"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:progressBarAutoRotateInterval="1000"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:layout_height="400dp" />
 
+
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="18dp"
         android:id="@+id/tv_good"
         android:gravity="center"
-        android:layout_marginLeft="22dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
-        android:drawableLeft="@drawable/ungood"
-        android:drawableStart="@drawable/ungood"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="22dp"
-        android:drawablePadding="10dp"
         android:layout_below="@+id/iv_image"
         android:layout_alignLeft="@+id/iv_image"
         android:layout_alignStart="@+id/iv_image" />
 
     <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:src="@drawable/share"
         android:layout_marginTop="10dp"
         android:layout_marginRight="38dp"
@@ -71,17 +73,22 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/comments"
+        android:layout_alignTop="@+id/tv_comments"
+        android:layout_toLeftOf="@+id/tv_comments"
+        android:layout_toStartOf="@+id/tv_comments" />
+
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="18dp"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/comments"
-        android:drawableStart="@drawable/comments"
-        android:layout_marginBottom="20dp"
         android:id="@+id/tv_comments"
-        android:layout_below="@+id/iv_image"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_alignTop="@+id/tv_good"
         android:layout_toRightOf="@+id/tv_name"
         android:layout_toEndOf="@+id/tv_name" />
 
@@ -93,6 +100,15 @@
         android:layout_marginTop="10dp"
         android:layout_alignLeft="@+id/tv_text"
         android:layout_alignStart="@+id/tv_text" />
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:id="@+id/iv_good"
+        android:src="@drawable/ungood"
+        android:layout_alignTop="@+id/tv_good"
+        android:layout_alignLeft="@+id/iv_image"
+        android:layout_alignStart="@+id/iv_image" />
 
 
 </RelativeLayout>

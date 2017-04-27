@@ -4,27 +4,32 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.yb.funny.R;
 import com.yb.funny.activity.CommentsActivity;
 import com.yb.funny.adapter.ResourceListAdapter;
 import com.yb.funny.entity.Resource;
 import com.yb.funny.util.Constant;
+import com.yb.funny.util.SharedpreferencesUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -38,18 +43,26 @@ public class ResourceFragment extends Fragment {
     private int chooseitem;
     private int chooseitemid;
     private int count = 0;
+    private int lastitemid;
+
+    private Resource lastVisibleResource;
 
     private View view;
     private ResourceListAdapter adapter;
     private ListView listView;
-    private ImageView refresh;
+    private FloatingActionButton refresh;
+
+
+    public ResourceFragment(Resource lastVisibleResource) {
+        this.lastVisibleResource = lastVisibleResource;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resource, container, false);
         listView = (ListView) view.findViewById(R.id.lv_resource);
-        refresh  = (ImageView) view.findViewById(R.id.refresh);
+        refresh  = (FloatingActionButton) view.findViewById(R.id.refresh);
         loadResource();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,9 +74,24 @@ public class ResourceFragment extends Fragment {
                 Resource resource = adapter.getItem(position);
                 chooseitem = position;
                 chooseitemid = resource.getResourceid();
-                bundle.putSerializable("resource",resource);
+                bundle.putSerializable("resource", resource);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                if(adapter != null) {
+                    lastVisibleResource = adapter.getItem(i);
+                    SharedpreferencesUtil.setSharedPreference(x.app(), Constant.RESOURCE_INFO, JSON.toJSONString(lastVisibleResource));
+                }
             }
         });
 
@@ -72,10 +100,11 @@ public class ResourceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final ProgressDialog dialog = ProgressDialog.show(getActivity(), getString(R.string.alert), getString(R.string.Loading));
-                RequestParams params = new RequestParams(Constant.URI+"resource");
+                RequestParams params = new RequestParams(Constant.URI + "resource");
                 params.setMultipart(true);
-                params.addBodyParameter("method","get");
-                params.addBodyParameter("type",1+"");
+                params.addBodyParameter("method", "get");
+                params.addBodyParameter("type", 1 + "");
+                params.addBodyParameter("resourceid",lastitemid+"");
                 x.http().post(params, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
@@ -92,7 +121,8 @@ public class ResourceFragment extends Fragment {
                         List<Resource> addlist = json(s);
                         adapter.addToHead(addlist);
                         adapter.notifyDataSetChanged();
-                        listView.setSelection(0);
+                        listView.setSelection(5);
+                        lastitemid = addlist.get(0).getResourceid();
                     }
 
                     @Override
@@ -163,16 +193,19 @@ public class ResourceFragment extends Fragment {
     public void loadResource(){
         RequestParams params = new RequestParams(Constant.URI+"resource");
         params.setMultipart(true);
-        params.addBodyParameter("method","get");
+        params.addBodyParameter("method", "get");
         params.addBodyParameter("type",1+"");
+        params.addBodyParameter("resourceid",lastVisibleResource.getResourceid()-1+"");
 
 
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
                 List<Resource> list = json(s);
-                adapter = new ResourceListAdapter(getActivity(),list);
+                lastitemid = list.get(0).getResourceid();
+                adapter = new ResourceListAdapter(getActivity(), list);
                 listView.setAdapter(adapter);
+                listView.setSelection(4);
             }
 
             @Override
@@ -194,7 +227,9 @@ public class ResourceFragment extends Fragment {
 
 
     public List<Resource> json(String s){
-        return JSONArray.parseArray(s, Resource.class);
+        List<Resource> list =  JSONArray.parseArray(s, Resource.class);
+        Collections.reverse(list);
+        return list;
     }
 
 

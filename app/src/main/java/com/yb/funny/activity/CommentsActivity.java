@@ -1,7 +1,6 @@
 package com.yb.funny.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -63,6 +62,8 @@ public class CommentsActivity extends AppCompatActivity {
     private  ImageView icon;
     @ViewInject(R.id.comments_iv_image)
     private SimpleDraweeView image;
+    @ViewInject(R.id.comments_iv_good)
+    private ImageView iv_good;
     @ViewInject(R.id.comments_tv_name)
     private TextView name;
     @ViewInject(R.id.comments_tv_text)
@@ -135,7 +136,8 @@ public class CommentsActivity extends AppCompatActivity {
         if ( resource.getResourcepic() == null){
             image.setVisibility(View.GONE);
         }else {
-            BitmapUtil.loadPicture(image, resource.getResourcepic(),BitmapUtil.getScreenWidth(this));
+//            BitmapUtil.loadPicture(image, resource.getResourcepic());
+            BitmapUtil.loadPicture(image,resource.getResourcepic(),BitmapUtil.getScreenWidth(this));
         }
         if (resource.getResourcetext() == null){
             text.setVisibility(View.GONE);
@@ -198,18 +200,37 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
 
+
+    @Event(value = R.id.comments_iv_image,type = SimpleDraweeView.OnClickListener.class)
+    private void photoView(View view){
+        String path = resource.getResourcepic();
+        if (!path.substring(path.length()-3).toLowerCase().equals("gif")) {
+            Intent intent = new Intent(CommentsActivity.this, PhoteViewActivity.class);
+            intent.putExtra("path", resource.getResourcepic());
+            startActivity(intent);
+        }
+    }
+
     /**
      * 点赞功能
      * @param view
      */
     @Event(value = R.id.comments_tv_good,type = TextView.OnClickListener.class)
-    private void good(View view){
+    private void tv_good(View view){
         if (LoginUser.getInstance().getUser() != null) {
             checkgood(resource.getResourceid(), clickhandler);
         }else{
             Toast.makeText(x.app(), getString(R.string.pleaseLogin), Toast.LENGTH_LONG).show();
         }
+    }
 
+    @Event(value = R.id.comments_iv_good,type = ImageView.OnClickListener.class)
+    private void iv_good(View view){
+        if (LoginUser.getInstance().getUser() != null) {
+            checkgood(resource.getResourceid(), clickhandler);
+        }else{
+            Toast.makeText(x.app(), getString(R.string.pleaseLogin), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -516,9 +537,10 @@ public class CommentsActivity extends AppCompatActivity {
         public boolean handleMessage(Message msg) {
 
             if (msg.what>0){
-                Drawable drawable = getResources().getDrawable(R.drawable.good);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                goodno.setCompoundDrawables(drawable, null, null, null);
+//                Drawable drawable = getResources().getDrawable(R.drawable.good);
+//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//                goodno.setCompoundDrawables(drawable, null, null, null);
+                iv_good.setImageResource(R.drawable.good);
             }
             return true;
         }
@@ -536,9 +558,10 @@ public class CommentsActivity extends AppCompatActivity {
                 toast.setGravity(Gravity.CENTER,0,0);
                 toast.show();
             }else {
-                Drawable drawable = getResources().getDrawable(R.drawable.good);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                goodno.setCompoundDrawables(drawable, null, null, null);
+//                Drawable drawable = getResources().getDrawable(R.drawable.good);
+//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//                goodno.setCompoundDrawables(drawable, null, null, null);
+                iv_good.setImageResource(R.drawable.good);
                 IntegralUtil.addintegral(1, LoginUser.getInstance().getUser().getUserid());
                 addGood();
             }

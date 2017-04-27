@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -32,7 +33,6 @@ import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,17 +45,12 @@ import java.util.List;
 public class UserActivity extends AppCompatActivity {
 
     private ResourceListAdapter adapter;
-//    @ViewInject(R.id.user_icon)
+    private User user;
     private ImageView icon;
-//    @ViewInject(R.id.user_name)
     private  TextView name;
-//    @ViewInject(R.id.user_sex)
     private ImageView sex;
-//    @ViewInject(R.id.user_integral)
     private  TextView integral;
-//    @ViewInject(R.id.user_introduction)
     private  TextView introduction;
-//    @ViewInject(R.id.user_title)
     private  TextView title;
     @ViewInject(R.id.user_resource)
     private  ListView lv_resource;
@@ -63,8 +58,6 @@ public class UserActivity extends AppCompatActivity {
     private  Toolbar mTbHeadBar;
     @ViewInject(R.id.toolbar_title)
     private  TextView toolbar_title;
-//    @ViewInject(R.id.user_scroll)
-//    private ScrollView scrollView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +71,7 @@ public class UserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        final User user = (User) getIntent().getSerializableExtra("user");
+        user = (User) getIntent().getSerializableExtra("user");
 
 
 
@@ -90,11 +83,6 @@ public class UserActivity extends AppCompatActivity {
         introduction = (TextView) headView.findViewById(R.id.user_introduction);
         title = (TextView) headView.findViewById(R.id.user_title);
         lv_resource.addHeaderView(headView,null,false);
-
-//        View emptyView = LayoutInflater.from(this).inflate(R.layout.empty_view,null);
-//        emptyView.setVisibility(View.GONE);
-//        ((ViewGroup)lv_resource.getParent()).addView(emptyView);
-//        lv_resource.setEmptyView(emptyView);
 
         initActivity(user);
 
@@ -143,6 +131,24 @@ public class UserActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_user, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_user) {
+            if (user.getUsername().equals(LoginUser.getInstance().getUser().getUsername())){
+                Intent intent = new Intent(UserActivity.this,UserManagerActivity.class);
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

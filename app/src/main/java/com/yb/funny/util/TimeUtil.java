@@ -43,6 +43,11 @@ public class TimeUtil {
         return null;
     }
 
+    public static String getDate(Date date){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(date);
+    }
+
 
     public static void setLastLogin(int userid,Date lastlogin){
         RequestParams params = new RequestParams(Constant.URI + "user");

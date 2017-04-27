@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    >
+    android:focusableInTouchMode="true">
 
     <include layout="@layout/headbar_toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -56,29 +57,37 @@
                     android:layout_alignStart="@+id/comments_tv_text"
                     android:layout_marginTop="10dp"
                     android:scaleType="fitCenter"
+                    fresco:scaleType="fitCenter"
                     android:id="@+id/comments_iv_image"
                     android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_height="400dp" />
 
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/comments_iv_good"
+                    android:src="@drawable/ungood"
+                    android:layout_alignTop="@+id/comments_tv_good"
+                    android:layout_alignLeft="@+id/comments_iv_image"
+                    android:layout_alignStart="@+id/comments_iv_image" />
+
                 <TextView
-                    android:text="11111"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
+                    android:layout_height="18dp"
                     android:id="@+id/comments_tv_good"
                     android:gravity="center"
-                    android:layout_marginLeft="22dp"
+                    android:layout_marginLeft="18dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginStart="22dp"
-                    android:drawableLeft="@drawable/ungood"
-                    android:drawablePadding="10dp"
+                    android:layout_marginStart="18dp"
                     android:layout_below="@+id/comments_iv_image"
                     android:layout_alignLeft="@+id/comments_iv_image"
                     android:layout_alignStart="@+id/comments_iv_image" />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/share"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="38dp"
@@ -88,15 +97,22 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/comments"
+                    android:layout_alignTop="@+id/comments_tv_comments"
+                    android:layout_toLeftOf="@+id/comments_tv_comments"
+                    android:layout_toStartOf="@+id/comments_tv_comments" />
+
                 <TextView
-                    android:text="22222"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
+                    android:layout_height="18dp"
                     android:gravity="center"
-                    android:drawableLeft="@drawable/comments"
                     android:layout_marginTop="10dp"
-                    android:drawablePadding="10dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
                     android:id="@+id/comments_tv_comments"
                     android:layout_below="@+id/comments_iv_image"
                     android:layout_toRightOf="@+id/comments_tv_name"
@@ -135,6 +151,7 @@
 
     </ScrollView>
 
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -148,15 +165,17 @@
             android:hint="@string/comments_hint"
             android:background="@null"
             android:paddingRight="60dp"
+            android:paddingEnd="60dp"
             android:maxLength="300"
-            android:paddingLeft="55dp" >
+            android:paddingLeft="55dp"
+            android:paddingStart="55dp">
         </EditText>
         <ImageView
             android:layout_width="24dp"
             android:layout_height="22dp"
             android:layout_marginStart="7dp"
             android:layout_marginLeft="7dp"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="start|center_vertical"
             android:background="@drawable/edit" />
 
         <Button
@@ -164,7 +183,8 @@
             android:layout_height="30dp"
             android:id="@+id/comments_send"
             android:layout_marginRight="10dp"
-            android:layout_gravity="right|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="end|center_vertical"
             android:text="@string/send"
             android:textColor="@color/white"
             android:background="@drawable/button_bg"/>

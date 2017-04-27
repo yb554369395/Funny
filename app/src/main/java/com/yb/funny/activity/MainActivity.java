@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.yb.funny.R;
+import com.yb.funny.adapter.MenuAdapter;
+import com.yb.funny.entity.Resource;
 import com.yb.funny.entity.User;
 import com.yb.funny.fragment.ResourceFragment;
 import com.yb.funny.util.AppManager;
@@ -56,6 +57,9 @@ import java.util.TimerTask;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity {
     private boolean isOpen = false;
+    private Resource lastVisibleResource;
+    private String[] text = new String[]{"个人信息","积分商城"};
+    private int[] image = new int[]{R.drawable.user,R.drawable.mall};
 
     @ViewInject(R.id.tbHeadBar)
     private Toolbar mTbHeadBar;
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle mToggle;
 
 
+
     private List<Activity> imageList = new ArrayList<Activity>() {{
         add(new UserActivity());
         add(new PrizeActivity());
@@ -99,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
         x.view().inject(this);
 
          /*初始化Toolbar与DrawableLayout*/
+        check();
         initToolBarAndDrawableLayout();
-        checkUser();
         initUserInfo();
 
-        mLvMenu.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, getResources().getStringArray(R.array.menu_array)));
+        mLvMenu.setAdapter(new MenuAdapter(this,image,text));
+//        mLvMenu.setAdapter(new ArrayAdapter<>(this, R.layout.menu_list_item., getResources().getStringArray(R.array.menu_array)));
         mLvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -216,20 +222,6 @@ public class MainActivity extends AppCompatActivity {
         initUserInfo();
     }
 
-    /**
-     * 跳转到用户个人信息界面
-     * @param view
-     */
-//    @Event(value = R.id.user_info,type = RelativeLayout.OnClickListener.class)
-//    private void setUserinfo(View view){
-//        Intent intent = new Intent(MainActivity.this,UserActivity.class);
-//        Bundle bundle = new Bundle();
-//        User user = LoginUser.getInstance().getUser();
-//        bundle.putSerializable("user", user);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
-//    }
-
 
     /**
      * 退出功能
@@ -290,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         mMyDrawable.setDrawerListener(mToggle);
         mToggle.syncState();/*同步状态*/
 
-        addFragmentToStack(new ResourceFragment());
+        addFragmentToStack(new ResourceFragment(lastVisibleResource));
 
     }
 
@@ -322,10 +314,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * 检查是否有用户信息保存在本地
      */
-    public void checkUser(){
+    public void check(){
         //从Sharedpreferences中取出的json字符串最外层为中括号，应去掉，不然无法解析
         String userinfo = SharedpreferencesUtil.getSahrePreference(x.app(), Constant.USER_INFO);
         if (userinfo.length()>5) {
@@ -336,6 +329,13 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 Toast.makeText(x.app(), R.string.timeout, Toast.LENGTH_LONG).show();
             }
+        }
+
+        String resourceinfo = SharedpreferencesUtil.getSahrePreference(x.app(), Constant.RESOURCE_INFO);
+        if (resourceinfo.length()>5) {
+            lastVisibleResource = JSON.parseObject(resourceinfo, Resource.class);
+        }else{
+            lastVisibleResource = new Resource();
         }
     }
 

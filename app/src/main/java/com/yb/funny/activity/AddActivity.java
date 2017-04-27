@@ -23,6 +23,7 @@ import com.yb.funny.util.AppManager;
 import com.yb.funny.util.Constant;
 import com.yb.funny.util.IntegralUtil;
 import com.yb.funny.util.LoginUser;
+import com.yb.funny.util.PopupWindowUtil;
 import com.yb.funny.util.TimeUtil;
 
 import org.xutils.common.Callback;
@@ -46,6 +47,7 @@ public class AddActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE = 1;
     private String picturePath = null;
+    private PopupWindowUtil pop;
     @ViewInject(R.id.tbHeadBar)
     private Toolbar mTbHeadBar;
     @ViewInject(R.id.toolbar_title)
@@ -155,21 +157,24 @@ public class AddActivity extends AppCompatActivity {
      */
     @Event(value = R.id.add_pic,type = ImageView.OnClickListener.class)
     private void uploadImage(View view){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(getString(R.string.alert))
-                .setMessage(getString(R.string.uploadImage))
-                .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
+//        AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(getString(R.string.alert))
+//                .setMessage(getString(R.string.uploadImage))
+//                .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
+//
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+//                    }
+//
+//                }).setNegativeButton(getString(R.string.cancel),
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        }).create(); // 创建对话框
+//        alertDialog.show(); // 显示对话框
 
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(i, RESULT_LOAD_IMAGE);
-                    }
-
-                }).setNegativeButton(getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create(); // 创建对话框
-        alertDialog.show(); // 显示对话框
+        pop = new PopupWindowUtil(this);
+        pop.show(view);
     }
 
     /**

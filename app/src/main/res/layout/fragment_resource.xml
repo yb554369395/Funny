@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -13,12 +14,12 @@
         android:dividerHeight="3dp"
         android:divider="@color/gray"/>
 
-    <ImageView
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/refresh"
         android:id="@+id/refresh"
-        android:background="@color/white"
+        app:backgroundTint="@color/white"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"

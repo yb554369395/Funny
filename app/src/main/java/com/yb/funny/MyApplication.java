@@ -3,16 +3,13 @@ package com.yb.funny;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import org.xutils.x;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 
 /**
- * Created by wyouflf on 15/10/28.
+ * Application
+ * Created by Marven on 2017/1/15.
  */
 public class MyApplication extends Application {
 

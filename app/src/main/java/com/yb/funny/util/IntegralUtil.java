@@ -62,7 +62,7 @@ public class IntegralUtil {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-
+                LoginUser.getInstance().getUser().addIntegral(integral);
             }
 
             @Override
@@ -80,7 +80,7 @@ public class IntegralUtil {
 
             }
         });
-        LoginUser.getInstance().getUser().addIntegral(integral);
+
     }
 
 }

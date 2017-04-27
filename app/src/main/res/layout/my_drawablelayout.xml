@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="start"
-                android:background="@color/blue"
+                android:background="@drawable/title_background"
                 >
                 <Button
                     android:layout_width="200dp"

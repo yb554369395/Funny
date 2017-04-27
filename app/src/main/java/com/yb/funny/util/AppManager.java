@@ -3,17 +3,13 @@ package com.yb.funny.util;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-
 import com.alibaba.fastjson.JSON;
-
-import org.json.JSONObject;
 import org.xutils.x;
-
 import java.util.Stack;
 
 /**
  * Activity管理类
- *
+ *单例模型
  * Created by Yangbin on 2017/1/24
  */
 public class AppManager {

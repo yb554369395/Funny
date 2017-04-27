@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yb.funny.R;
+import com.yb.funny.entity.Order;
 import com.yb.funny.entity.Prize;
 import com.yb.funny.entity.User;
 import com.yb.funny.fragment.PrizeInfoFragment;
@@ -86,8 +87,6 @@ public class PrizeActivity extends AppCompatActivity implements PrizeInfoFragmen
     private Toolbar mTbHeadBar;
     @ViewInject(R.id.toolbar_title)
     private TextView toolbar_title;
-//    @ViewInject(R.id.prize_ok)
-//    private Button ok;
     @ViewInject(R.id.prize_number)
     private EditText number;
 
@@ -220,18 +219,10 @@ public class PrizeActivity extends AppCompatActivity implements PrizeInfoFragmen
                 @Override
                 public void onSuccess(String s) {
                     number.setText("");
-                    AlertDialog alertDialog = new AlertDialog.Builder(PrizeActivity.this).setTitle(getString(R.string.alert))
-                            .setMessage(getString(R.string.rechargeSuccess))
-                            .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int which) {
-                                    IntegralUtil.lessintegral(prize.getRequiredpoints(), LoginUser.getInstance().getUser().getUserid());
-                                    Intent intent = new Intent();
-                                    intent.setAction("action.refreshUserInfo");
-                                    sendBroadcast(intent);
-                                }
-                            }).create(); // 创建对话框
-                    alertDialog.show(); // 显示对话框
+                    IntegralUtil.lessintegral(prize.getRequiredpoints(), LoginUser.getInstance().getUser().getUserid());
+                    Intent i = new Intent(PrizeActivity.this,OrderActivity.class);
+                    i.putExtra("orderid",s);
+                    startActivity(i);
                 }
 
                 @Override

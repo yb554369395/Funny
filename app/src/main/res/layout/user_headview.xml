@@ -15,9 +15,11 @@
         android:layout_marginStart="30dp" />
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:id="@+id/user_sex"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_alignTop="@+id/user_name"
         android:layout_toRightOf="@+id/user_name"
         android:layout_toEndOf="@+id/user_name" />

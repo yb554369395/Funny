@@ -1,13 +1,16 @@
 package com.yb.funny.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 订单实体类
- *
+ * 奖品订单实体类
+ * 
  * @author Yangbin
+ *
  */
-public class Order {
+
+public class Order implements Serializable {
 	
 	//订单编号
 	private int orderid;
@@ -16,7 +19,7 @@ public class Order {
 	//订单数额
 	private int orderamount;
 	//电话号码
-	private int phonenumber;
+	private String phonenumber;
 	//订货人
 	private int orderperson;
 	//订单发起时间
@@ -30,13 +33,13 @@ public class Order {
 	/**
 	 * @return the phonenumber
 	 */
-	public int getPhonenumber() {
+	public String getPhonenumber() {
 		return phonenumber;
 	}
 	/**
 	 * @param phonenumber the phonenumber to set
 	 */
-	public void setPhonenumber(int phonenumber) {
+	public void setPhonenumber(String phonenumber) {
 		this.phonenumber = phonenumber;
 	}
 	/**

@@ -41,27 +41,21 @@ public class BitmapUtil {
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setCircular(true)
                 .setCrop(true)
-                .setLoadingDrawableId(R.mipmap.ic_launcher)
-                .setFailureDrawableId(R.mipmap.ic_launcher)
+                .setLoadingDrawableId(R.drawable.loading)
+                .setFailureDrawableId(R.drawable.fail)
                 .build();
         x.image().bind(view,url,imageOptions);
     }
 
-//    /**
-//     * 加载资源图片
-//     *
-//     * * @param simpleDraweeView view
-//     * * @param imagePath  Uri
-//     */
-//    public static void loadPicture( ImageView imageView,String imagePath) {
-//        ImageOptions imageOptions = new ImageOptions.Builder()
-//                .setLoadingDrawableId(R.mipmap.ic_launcher)
-//                .setFailureDrawableId(R.mipmap.ic_launcher)
-//                .setUseMemCache(true)
-//                .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
-//                .build();
-//        x.image().bind(imageView,imagePath,imageOptions);
-//    }
+    /**
+     * 加载资源图片
+     *
+     * * @param simpleDraweeView view
+     * * @param imagePath  Uri
+     */
+    public static void loadPicture(final SimpleDraweeView simpleDraweeView, String imagePath) {
+        simpleDraweeView.setImageURI(imagePath);
+    }
 
 
     /**
@@ -78,6 +72,7 @@ public class BitmapUtil {
                 }
                 int height = imageInfo.getHeight();
                 int width = imageInfo.getWidth();
+
                 layoutParams.width = imageWidth;
                 layoutParams.height = (int) ((float) (imageWidth * height) / (float) width);
                 simpleDraweeView.setLayoutParams(layoutParams);

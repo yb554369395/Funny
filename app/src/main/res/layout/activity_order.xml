@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include layout="@layout/headbar_toolbar"
+        android:id="@+id/order_head"/>
+
+
+
+
+    <Button
+        android:id="@+id/order_ok"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/default_button_height"
+        android:background="@drawable/button_bg"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:text="@string/submit"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/order_head"
+        android:layout_margin="20dp"
+        android:layout_above="@+id/order_ok">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="订单编号"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="23sp"
+                android:textColor="@color/blue"
+                android:id="@+id/order_id"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="兑换奖品类型"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/order_type"
+                android:textSize="23sp"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="充值号码"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textSize="23sp"
+                android:textColor="@color/blue"
+                android:id="@+id/order_number"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="充值数额"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/order_amount"
+                android:textSize="23sp"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="充值账户"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/table_frame_gray"
+        >
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/order_person"
+            android:textSize="23sp"
+            android:textColor="@color/blue"
+            android:layout_marginLeft="20dp"/>
+    </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="订单生成时间"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/table_frame_gray"
+            >
+            <TextView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/order_time"
+                android:textSize="23sp"
+                android:textColor="@color/blue"
+                android:layout_marginLeft="20dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</RelativeLayout>
