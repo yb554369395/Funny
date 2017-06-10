@@ -12,9 +12,10 @@ public class Constant {
 
     public static final String RESOURCE_INFO = "resource_info";
 
-    public static final String IP = "113.250.154.227";
+    public static final String IP = "113.251.160.234";
 
     public static final String URI = "http://"+IP+":8080/funny/";
 
     public static final String DEFAULT_ICON = "default.png";
+
 }

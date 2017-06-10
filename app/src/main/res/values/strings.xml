@@ -76,6 +76,7 @@
     <string name="timeout">距离您上次登录已超过48小时，自动登录已失效，请重新登陆！</string>
     <string name="loadAll">该用户所发表的内容已全部加载！</string>
     <string name="no_introduction">这个人很懒，什么也没有留下</string>
+    <string name="img_hint">点击查看原图</string>
 
     <string-array name="menu_text">
         <item>个人信息</item>

@@ -7,8 +7,8 @@ import android.widget.RadioGroup;
 
 /**
  * 自动换行RadioGroup
- * @author xiehaibo
- *个人博客 http://www.glmei.cn
+ *
+ * Created by Yangbin on 2017/1/16.
  */
 
 public class FlowRadioGroup extends RadioGroup{

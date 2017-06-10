@@ -110,5 +110,20 @@
         android:layout_alignLeft="@+id/iv_image"
         android:layout_alignStart="@+id/iv_image" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="@string/img_hint"
+        android:layout_above="@+id/tv_good"
+        android:gravity="center"
+        android:id="@+id/iv_hint"
+        android:visibility="gone"
+        android:background="#9b000000"
+        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/iv_image"
+        android:layout_alignStart="@+id/iv_image"
+        android:layout_alignRight="@+id/iv_image"
+        android:layout_alignEnd="@+id/iv_image" />
+
 
 </RelativeLayout>

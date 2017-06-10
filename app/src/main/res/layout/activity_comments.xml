@@ -127,6 +127,21 @@
                     android:layout_alignLeft="@+id/comments_tv_text"
                     android:layout_alignStart="@+id/comments_tv_text" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:text="@string/img_hint"
+                    android:gravity="center"
+                    android:id="@+id/comments_iv_hint"
+                    android:visibility="gone"
+                    android:background="#9b000000"
+                    android:textColor="@color/white"
+                    android:layout_above="@+id/comments_tv_good"
+                    android:layout_alignRight="@+id/comments_iv_image"
+                    android:layout_alignEnd="@+id/comments_iv_image"
+                    android:layout_alignLeft="@+id/comments_iv_image"
+                    android:layout_alignStart="@+id/comments_iv_image" />
+
 
             </RelativeLayout>
 

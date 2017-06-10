@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         //将url直接添加到参数里面
         RequestParams params = new RequestParams(Constant.URI+"user");
         params.setMultipart(true);
-        params.addBodyParameter("method","login");
+               params.addBodyParameter("method","login");
         params.addBodyParameter("username",username.getText().toString() );
         params.addBodyParameter("password", password.getText().toString());
 

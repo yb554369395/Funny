@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yb.funny.R;
+import com.yb.funny.activity.CommentsActivity;
 import com.yb.funny.activity.PhoteViewActivity;
 import com.yb.funny.entity.Resource;
 import com.yb.funny.util.BitmapUtil;
@@ -42,6 +43,7 @@ public class ResourceListAdapter extends BaseAdapter {
     private TextView text;
     private TextView good;
     private TextView comments;
+    private TextView hint;
 
     public ResourceListAdapter(Context context, List<Resource> data) {
         this.context = context;
@@ -130,12 +132,13 @@ public class ResourceListAdapter extends BaseAdapter {
         icon = (ImageView) convertView.findViewById(R.id.iv_icon);
         image = (SimpleDraweeView) convertView.findViewById(R.id.iv_image);
         iv_good = (ImageView) convertView.findViewById(R.id.iv_good);
+        hint = (TextView) convertView.findViewById(R.id.iv_hint);
 
         BitmapUtil.loadIcon(resource.getPublishericon(),icon);
         if (resource.getResourcepic() == null) {
             image.setVisibility(View.GONE);
         } else {
-            BitmapUtil.loadPicture(image, resource.getResourcepic(),BitmapUtil.getScreenWidth(context));
+            BitmapUtil.loadPicture(image, resource.getResourcepic(),BitmapUtil.getScreenWidth(context),BitmapUtil.getScreenHeight(context),hint);
         }
 
         name.setText(resource.getPublishername());
@@ -148,6 +151,15 @@ public class ResourceListAdapter extends BaseAdapter {
         checkgood(resource.getResourceid(), iv_good);
         good.setText(resource.getPointpraiseno() + "");
         comments.setText(resource.getCommentno() + "");
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PhoteViewActivity.class);
+                intent.putExtra("path", resource.getResourcepic());
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 

@@ -65,8 +65,6 @@
             android:background="@drawable/lock" />
     </FrameLayout>
 
-        <!--android:background="#ff336699"-->
-
     <Button
         android:id="@+id/login"
         android:layout_width="fill_parent"

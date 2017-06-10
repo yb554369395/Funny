@@ -82,6 +82,8 @@ public class CommentsActivity extends AppCompatActivity {
     private  Toolbar mTbHeadBar;
     @ViewInject(R.id.toolbar_title)
     private  TextView toolbar_title;
+    @ViewInject(R.id.comments_iv_hint)
+    private TextView hint;
 
 
     @Override
@@ -137,7 +139,7 @@ public class CommentsActivity extends AppCompatActivity {
             image.setVisibility(View.GONE);
         }else {
 //            BitmapUtil.loadPicture(image, resource.getResourcepic());
-            BitmapUtil.loadPicture(image,resource.getResourcepic(),BitmapUtil.getScreenWidth(this));
+            BitmapUtil.loadPicture(image,resource.getResourcepic(),BitmapUtil.getScreenWidth(this),BitmapUtil.getScreenHeight(this),hint);
         }
         if (resource.getResourcetext() == null){
             text.setVisibility(View.GONE);

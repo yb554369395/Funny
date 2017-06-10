@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -62,9 +64,9 @@ public class BitmapUtil {
      * 使用SimpleDraweeView加载图片，图片自适应
      * 由于SimpleDraweeView出现问题，该方法暂时不可用
      */
-    public static void loadPicture(final SimpleDraweeView simpleDraweeView, String imagePath, final int imageWidth) {
+    public static void loadPicture(final SimpleDraweeView simpleDraweeView, final String imagePath, final int screenWidth, final int screenHeight, final TextView hint) {
         final ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
-        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+        final ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
             @Override
             public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
                 if (imageInfo == null) {
@@ -73,9 +75,15 @@ public class BitmapUtil {
                 int height = imageInfo.getHeight();
                 int width = imageInfo.getWidth();
 
-                layoutParams.width = imageWidth;
-                layoutParams.height = (int) ((float) (imageWidth * height) / (float) width);
-                simpleDraweeView.setLayoutParams(layoutParams);
+
+                if (((int) ((float) (screenWidth * height) / (float) width)) < (screenHeight * 1.5)) {
+                    layoutParams.width = screenWidth;
+                    layoutParams.height = (int) ((float) (screenWidth * height) / (float) width);
+                    simpleDraweeView.setLayoutParams(layoutParams);
+                }else {
+                    hint.setVisibility(View.VISIBLE);
+                    simpleDraweeView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
             }
 
             @Override
@@ -100,4 +108,13 @@ public class BitmapUtil {
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
+    public static int getScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
+
 }
